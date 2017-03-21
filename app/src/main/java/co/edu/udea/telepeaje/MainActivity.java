@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view){
-        Intent intent = new Intent(this, AutorizarPagoMap.class);
+        Intent intent = new Intent(this, AutorizarPagoMapActivity.class);
         startActivity(intent);
     }
 
