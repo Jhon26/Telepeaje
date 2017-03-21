@@ -2,13 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.edu.udea.telepeaje">
 
-    <!--PERMISOS-->
-    <uses-permission android:name="android.permission.INTERNET" />//Internet
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />//Estado de la red
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />//Ubicacion fina
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />//Ubicacion no tan fina
-    <uses-permission android:name="ANDROID.PERMISSION.WRITE_EXTERNAL_STORAGE" />//Escribir en el almacenamiento externo para no estar bajando datos repetidos de los mapas
-
+    <!-- PERMISOS -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    //Internet
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    //Estado de la red
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    //Ubicacion fina
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    //Ubicacion no tan fina
+    <uses-permission android:name="ANDROID.PERMISSION.WRITE_EXTERNAL_STORAGE" />
+    //Escribir en el almacenamiento externo para no estar bajando datos repetidos de los mapas
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,10 +20,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--Datos necesarios para la implementación del mapa-->
+
+        <!-- Datos necesarios para la implementación del mapa
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyA07STOiOQw6d36az1XsuhO8ZjPlRFV6fc" />
+            android:value="AIzaSyA07STOiOQw6d36az1XsuhO8ZjPlRFV6fc" />-->
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -29,7 +34,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".DisplayMessageActivity" />
-        <activity android:name=".AutorizarPago"></activity>
+        <activity android:name=".AutorizarPago" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".AutorizarPagoMap"
+            android:label="@string/title_activity_autorizar_pago_map"></activity>
     </application>
 
 </manifest>
