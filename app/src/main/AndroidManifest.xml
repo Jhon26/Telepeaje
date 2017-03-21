@@ -52,7 +52,8 @@
         <activity
             android:name=".AutorizarPagoMapActivity"
             android:label="@string/title_activity_autorizar_pago_map" />
-        <activity android:name=".RegistroEmailActivity"></activity>
+        <activity android:name=".RegistroEmailActivity" />
+        <activity android:name=".RegistroPasswordActivity"></activity>
     </application>
 
 </manifest>
