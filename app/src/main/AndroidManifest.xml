@@ -21,10 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- Datos necesarios para la implementación del mapa
+        <!--
+        Datos necesarios para la implementación del mapa
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyA07STOiOQw6d36az1XsuhO8ZjPlRFV6fc" />-->
+            android:value="AIzaSyA07STOiOQw6d36az1XsuhO8ZjPlRFV6fc" />
+        -->
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -49,7 +51,8 @@
 
         <activity
             android:name=".AutorizarPagoMap"
-            android:label="@string/title_activity_autorizar_pago_map"></activity>
+            android:label="@string/title_activity_autorizar_pago_map" />
+        <activity android:name=".RegistroEmailActivity"></activity>
     </application>
 
 </manifest>

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,9 +17,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendMessage(View view){
         Intent intent = new Intent(this, AutorizarPagoMap.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+
+    public void openRegistroEmail(View view){
+        Intent intent = new Intent(this, RegistroEmailActivity.class);
         startActivity(intent);
     }
 }
