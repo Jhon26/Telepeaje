@@ -13,8 +13,8 @@ public class RegistroEmailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registro_email);
     }
 
-    public void openRegistroPassword(View view){
-        Intent intent = new Intent(this, RegistroPasswordActivity.class);
+    public void openInformacionPersonal(View view){
+        Intent intent = new Intent(this, InformacionPersonalActivity.class);
         startActivity(intent);
     }
 }
