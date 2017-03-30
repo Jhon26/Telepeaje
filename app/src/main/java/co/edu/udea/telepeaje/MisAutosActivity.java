@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class MisAutosActivity extends AppCompatActivity {
 
@@ -32,8 +33,16 @@ public class MisAutosActivity extends AppCompatActivity {
     //En este caso la view es la cardView que invoca a este metodo
     public void openMiAuto(View view){
         Intent intent = new Intent(this, MiAutoActivity.class);
-        //Se le pasa el tag de la cardView que llama al metodo, para asi poder identificarla y extraer su informacion
-        intent.putExtra("tarjetaOrigen", view.getTag().toString());
+        //Segun el tag de la cardView, se extrae el texto de los elementos que esta contiene
+        TextView placaTextView = (TextView) findViewById(getResources().getIdentifier("placa".concat(view.getTag().toString()), "id", getPackageName()));
+        String placa = placaTextView.getText().toString();
+        intent.putExtra("placa", placa);
+        TextView nombreAutoTextView = (TextView) findViewById(getResources().getIdentifier("nombreAuto".concat(view.getTag().toString()), "id", getPackageName()));
+        String nombreAuto = nombreAutoTextView.getText().toString();
+        intent.putExtra("nombreAuto", nombreAuto);
+        TextView pagoTextView = (TextView) findViewById(getResources().getIdentifier("pago".concat(view.getTag().toString()), "id", getPackageName()));
+        String pago = pagoTextView.getText().toString();
+        intent.putExtra("pago", pago);
         startActivity(intent);
     }
 }
