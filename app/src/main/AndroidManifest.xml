@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="co.edu.udea.telepeaje">
 
     <!-- PERMISOS -->
@@ -53,11 +54,15 @@
             android:name=".AutorizarPagoMapActivity"
             android:label="@string/title_activity_autorizar_pago_map" />
         <activity android:name=".RegistroEmailActivity" />
-        <activity android:name=".InformacionPersonalActivity"/>
+        <activity android:name=".InformacionPersonalActivity" />
         <activity
             android:name=".NavigationDrawerActivity"
             android:label="@string/title_activity_navigation_drawer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".InformacionVehiculoActivity" />
+        <activity android:name=".InformacionPagoActivity" />
+        <activity android:name=".MisAutosActivity" />
+        <activity android:name=".MiAutoActivity"></activity>
     </application>
 
 </manifest>

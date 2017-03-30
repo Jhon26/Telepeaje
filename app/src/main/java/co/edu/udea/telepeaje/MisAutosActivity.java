@@ -3,27 +3,23 @@ package co.edu.udea.telepeaje;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.view.ViewGroup;
 
-public class InformacionPersonalActivity extends AppCompatActivity {
+public class MisAutosActivity extends AppCompatActivity {
 
     /*
         Para las variables que se pasan en un intent, es una buena practica preceder su nombre del nombre del paquete,
         ya que si no se hace esto, la clase que recibe el extra puede recibir otra variable con el mismo nombre y se pueden
         originar conflictos.
 
-    public static final String EXTRA_ORIGEN = "co.edu.udea.telepeaje.InformacionPersonalActivity.CLASE_ORIGEN"; */
+    public static final String EXTRA_ORIGEN = "co.edu.udea.telepeaje.MisAutosActivity.CLASE_ORIGEN";*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_informacion_personal);
-        /*Spinner spinner_animales = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter spinner_adapter = ArrayAdapter.createFromResource( this, R.array.tiposIdentificacion , android.R.layout.simple_spinner_item);
-        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_animales.setAdapter(spinner_adapter);*/
+        setContentView(R.layout.activity_mis_autos);
     }
 
     public void openInformacionVehiculo(View view){
@@ -33,4 +29,11 @@ public class InformacionPersonalActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //En este caso la view es la cardView que invoca a este metodo
+    public void openMiAuto(View view){
+        Intent intent = new Intent(this, MiAutoActivity.class);
+        //Se le pasa el tag de la cardView que llama al metodo, para asi poder identificarla y extraer su informacion
+        intent.putExtra("tarjetaOrigen", view.getTag().toString());
+        startActivity(intent);
+    }
 }
