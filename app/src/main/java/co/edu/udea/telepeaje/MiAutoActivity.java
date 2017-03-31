@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,16 +19,24 @@ public class MiAutoActivity extends AppCompatActivity {
 
         //Se obtienen los valores de los campos de la cardView
         Intent intent = getIntent();
-        String placa =  intent.getStringExtra("placa");
         String nombreAuto = intent.getStringExtra("nombreAuto");
         String pago = intent.getStringExtra("pago");
+        String peajes = intent.getStringExtra("peajes");
+        String placa =  intent.getStringExtra("placa");
 
-        //Se obtienen los TextView de la actividad actual
+        //Se obtienen los componentes de la actividad actual
         TextView placaTextView = (TextView) findViewById(R.id.placaMiAuto);
-        TextView pagoTextView= (TextView) findViewById(R.id.pagoMiAuto);
+        Button pagoButton= (Button) findViewById(R.id.pagoMiAuto);
+        Button peajesButton= (Button) findViewById(R.id.peajesMiAuto);
 
-        //Se les pone valor a los TextView
+        //Se les pone valor a los componentes
+        peajesButton.setText(peajesButton.getText().toString().concat(peajes));
         placaTextView.setText(placaTextView.getText().toString().concat(placa));
-        pagoTextView.setText(pagoTextView.getText().toString().concat(pago));
+        pagoButton.setText(pagoButton.getText().toString().concat(pago));
+    }
+
+    public void openSeleccionarPago(View view){
+        Intent intent = new Intent(this, SeleccionarPagoActivity.class);
+        startActivity(intent);
     }
 }

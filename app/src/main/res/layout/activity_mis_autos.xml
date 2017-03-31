@@ -43,7 +43,7 @@
                     android:layout_height="57dp"
                     android:paddingTop="27dp"
                     android:paddingLeft="15dp"
-                    android:text="2 peajes habilitados"
+                    android:text="2 peajes habilitado(s)"
                     android:textSize="15dp" />
                 <TextView
                     android:id="@+id/placa1"
@@ -87,7 +87,7 @@
                     android:layout_height="57dp"
                     android:paddingTop="27dp"
                     android:paddingLeft="15dp"
-                    android:text="7 peajes habilitados"
+                    android:text="7 peajes habilitado(s)"
                     android:textSize="15dp" />
                 <TextView
                     android:id="@+id/placa2"
@@ -131,7 +131,7 @@
                     android:layout_height="57dp"
                     android:paddingTop="27dp"
                     android:paddingLeft="15dp"
-                    android:text="1 peaje habilitados"
+                    android:text="1 peaje habilitado(s)"
                     android:textSize="15dp" />
                 <TextView
                     android:id="@+id/placa3"

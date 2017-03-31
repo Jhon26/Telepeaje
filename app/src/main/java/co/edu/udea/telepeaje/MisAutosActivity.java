@@ -43,6 +43,14 @@ public class MisAutosActivity extends AppCompatActivity {
         TextView pagoTextView = (TextView) findViewById(getResources().getIdentifier("pago".concat(view.getTag().toString()), "id", getPackageName()));
         String pago = pagoTextView.getText().toString();
         intent.putExtra("pago", pago);
+        TextView peajesTextView = (TextView) findViewById(getResources().getIdentifier("cantidadPeajes".concat(view.getTag().toString()), "id", getPackageName()));
+        String peajes = peajesTextView.getText().toString();
+        intent.putExtra("peajes", peajes);
         startActivity(intent);
     }
+
+    /*
+    public void openConfiguracionPeajes(View view){
+        Intent intent = new Intent(this, ConfiguracionPeajesActivity.class);
+    }*/
 }
