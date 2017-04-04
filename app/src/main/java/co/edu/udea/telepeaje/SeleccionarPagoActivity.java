@@ -15,10 +15,12 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
     }
 
     public void seleccionarPago(View view){
-        Intent intent = new Intent(this, MiAutoActivity.class);
-        //Se pone el pago seleccionado en el botón de la descripción del auto
-        Button pago = (Button) findViewById(R.id.pagoMiAuto);
-        pago.setText(view.getTag().toString());
+        //Se manda a una clase intermedia el tag del botón que se seleccionó como método de pago
+        ConfiguracionAuto.setPago(view.getTag().toString());
+        //Se manda la actividad desde la cual se configuró el auto, para efectos del toast que aparece en MiAutoActivity
+        ConfiguracionAuto.setActivity(this.getLocalClassName().toString());
+        //Se finaliza esta actividad para que al estar ubicado en en la actividad "MiAuto" y se
+        //le de atrás, no se abra esta actividad
         finish();
     }
 }

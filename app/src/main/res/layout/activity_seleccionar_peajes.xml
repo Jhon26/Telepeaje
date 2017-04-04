@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="co.edu.udea.telepeaje.SeleccionarPeajesActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Las Palmas"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="19dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$9950 COP"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="48dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Niquia"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="96dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$2400 COP"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="125dp"
+        android:layout_below="@+id/textView4"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tunel de Occidente"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="188dp"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/textView5"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_alignStart="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$12700 COP"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="217dp"
+        android:layout_below="@+id/textView6"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignStart="@+id/textView6" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="288dp"
+        tools:layout_editor_absoluteY="16dp"
+        android:layout_alignTop="@+id/button17"
+        android:layout_toLeftOf="@+id/button17"
+        android:layout_toStartOf="@+id/button17" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="288dp"
+        tools:layout_editor_absoluteY="96dp"
+        android:layout_alignTop="@+id/button18"
+        android:layout_toLeftOf="@+id/button18"
+        android:layout_toStartOf="@+id/button18" />
+
+    <Switch
+        android:id="@+id/switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="288dp"
+        tools:layout_editor_absoluteY="188dp"
+        android:layout_alignTop="@+id/button9"
+        android:layout_toLeftOf="@+id/button9"
+        android:layout_toStartOf="@+id/button9" />
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="27dp"
+        android:layout_height="28dp"
+        android:background="@android:drawable/ic_delete"
+        tools:layout_editor_absoluteX="341dp"
+        tools:layout_editor_absoluteY="188dp"
+        android:layout_alignBottom="@+id/textView6"
+        android:layout_alignRight="@+id/button"
+        android:layout_alignEnd="@+id/button" />
+
+    <Button
+        android:id="@+id/button17"
+        android:layout_width="27dp"
+        android:layout_height="28dp"
+        android:background="@android:drawable/ic_delete"
+        tools:layout_editor_absoluteX="341dp"
+        tools:layout_editor_absoluteY="16dp"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_toRightOf="@+id/switch2"
+        android:layout_toEndOf="@+id/switch2" />
+
+    <Button
+        android:id="@+id/button18"
+        android:layout_width="27dp"
+        android:layout_height="28dp"
+        android:background="@android:drawable/ic_delete"
+        tools:layout_editor_absoluteX="341dp"
+        tools:layout_editor_absoluteY="96dp"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_toRightOf="@+id/switch3"
+        android:layout_toEndOf="@+id/switch3" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="openInformacionVehiculo"
+        app:backgroundTint="@android:color/black"
+        app:elevation="6dp"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_action_addbig2"
+        tools:layout_editor_absoluteY="455dp"
+        tools:layout_editor_absoluteX="328dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

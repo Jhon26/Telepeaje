@@ -34,7 +34,8 @@
         <activity android:name=".InformacionPagoActivity" />
         <activity android:name=".MisAutosActivity" />
         <activity android:name=".MiAutoActivity" />
-        <activity android:name=".SeleccionarPagoActivity"></activity>
+        <activity android:name=".SeleccionarPagoActivity" />
+        <activity android:name=".SeleccionarPeajesActivity"></activity>
     </application>
 
 </manifest>

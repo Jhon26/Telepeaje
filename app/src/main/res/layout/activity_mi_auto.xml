@@ -57,6 +57,6 @@
         android:layout_below="@+id/pagoMiAuto"
         android:layout_alignLeft="@+id/pagoMiAuto"
         android:layout_alignStart="@+id/pagoMiAuto"
-        android:onClick="openConfiguracionPeajes"/>
+        android:onClick="openSeleccionarPeajes"/>
 
 </RelativeLayout>

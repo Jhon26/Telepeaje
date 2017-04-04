@@ -42,10 +42,14 @@ public class MisAutosActivity extends AppCompatActivity {
         intent.putExtra("nombreAuto", nombreAuto);
         TextView pagoTextView = (TextView) findViewById(getResources().getIdentifier("pago".concat(view.getTag().toString()), "id", getPackageName()));
         String pago = pagoTextView.getText().toString();
-        intent.putExtra("pago", pago);
+        ConfiguracionAuto.setPago(pago);
+        //intent.putExtra("pago", pago);
         TextView peajesTextView = (TextView) findViewById(getResources().getIdentifier("cantidadPeajes".concat(view.getTag().toString()), "id", getPackageName()));
         String peajes = peajesTextView.getText().toString();
         intent.putExtra("peajes", peajes);
+
+        //Se pone vacía la actividad desde la cual se configuró el auto, ya que en esta actividad no lo estamos configurando
+        ConfiguracionAuto.setActivity("");
         startActivity(intent);
     }
 

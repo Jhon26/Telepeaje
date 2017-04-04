@@ -20,7 +20,7 @@ public class MiAutoActivity extends AppCompatActivity {
         //Se obtienen los valores de los campos de la cardView
         Intent intent = getIntent();
         String nombreAuto = intent.getStringExtra("nombreAuto");
-        String pago = intent.getStringExtra("pago");
+        String pago = ConfiguracionAuto.getPago();
         String peajes = intent.getStringExtra("peajes");
         String placa =  intent.getStringExtra("placa");
 
@@ -32,11 +32,27 @@ public class MiAutoActivity extends AppCompatActivity {
         //Se les pone valor a los componentes
         peajesButton.setText(peajesButton.getText().toString().concat(peajes));
         placaTextView.setText(placaTextView.getText().toString().concat(placa));
-        pagoButton.setText(pagoButton.getText().toString().concat(pago));
+        pagoButton.setText(pago);
+    }
+
+    //Cuando se finaliza SeleccionarPagoActivity y vuelve a aparecer esta actividad, se ejecuta este método
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String pago = ConfiguracionAuto.getPago();
+        Button pagoButton= (Button) findViewById(R.id.pagoMiAuto);
+        pagoButton.setText(pago);
+        if(!ConfiguracionAuto.getActivity().equals(""))
+        Toast.makeText(this, "Método de pago cambiado", Toast.LENGTH_SHORT).show();
     }
 
     public void openSeleccionarPago(View view){
         Intent intent = new Intent(this, SeleccionarPagoActivity.class);
+        startActivity(intent);
+    }
+
+    public void openSeleccionarPeajes(View view){
+        Intent intent = new Intent(this, SeleccionarPeajesActivity.class);
         startActivity(intent);
     }
 }
