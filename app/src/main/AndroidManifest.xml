@@ -21,13 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity"/>
         <activity android:name=".RegistroEmailActivity" />
         <activity android:name=".InformacionPersonalActivity" />
         <activity android:name=".InformacionVehiculoActivity" />
@@ -35,7 +29,14 @@
         <activity android:name=".MisAutosActivity" />
         <activity android:name=".MiAutoActivity" />
         <activity android:name=".SeleccionarPagoActivity" />
-        <activity android:name=".SeleccionarPeajesActivity"></activity>
+        <activity android:name=".SeleccionarPeajesActivity" />
+        <activity android:name=".SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
