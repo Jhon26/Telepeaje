@@ -32,33 +32,79 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/frameLayout"
-        android:layout_weight="1">
+        android:layout_weight="0.7">
 
-        <Button
-            android:id="@+id/button7"
+        <EditText
+            android:id="@+id/editText6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/background_dark"
-            android:onClick="sendMessage"
-            android:text="INGRESA"
-            android:textColor="@android:color/background_light"
             android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/button6"
-            android:layout_alignStart="@+id/button6"
-            android:layout_marginTop="37dp"
-            android:layout_alignRight="@+id/button6"
-            android:layout_alignEnd="@+id/button6" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp"
+            android:ems="10"
+            android:hint="Correo electrónico"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/button6"
+        <EditText
+            android:id="@+id/editText7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/background_dark"
-            android:onClick="openRegistroEmail"
-            android:text="REGÍSTRATE"
-            android:textColor="@android:color/background_light"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignLeft="@+id/editText6"
+            android:layout_alignStart="@+id/editText6"
+            android:layout_below="@+id/editText6"
+            android:ems="10"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:textAlignment="center" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText7"
+            android:layout_toEndOf="@+id/editText7"
+            android:layout_toRightOf="@+id/editText7"
+            android:clickable="true"
+            android:onClick="openMisAutos"
+            app:backgroundTint="@android:color/black"
+            app:elevation="6dp"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_action_compose" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="¿No tienes cuenta?"
+            android:layout_marginLeft="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_below="@+id/button"
+            android:layout_alignLeft="@+id/editText7"
+            android:layout_alignStart="@+id/editText7" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Regístrate!"
+            android:textStyle="bold"
+            android:layout_above="@+id/textView10"
+            android:layout_toRightOf="@+id/textView8"
+            android:layout_toEndOf="@+id/textView8"
+            android:paddingLeft="5dp"
+            android:onClick="openRegistroEmail"/>
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="¿Olvidaste tu contraseña?"
+            android:layout_below="@+id/textView8"
+            android:layout_centerHorizontal="true"
+            android:onClick="mostrarSolucion"/>
     </RelativeLayout>
 
 </LinearLayout>
