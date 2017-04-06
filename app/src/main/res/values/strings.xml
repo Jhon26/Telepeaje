@@ -14,4 +14,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="cuenta_item">Configuración de la cuenta</string>
+    <string name="historial_item">Historial de pagos</string>
+    <string name="pago_item">Métodos de pago</string>
+    <string name="acerca_de_nosotros_item">Acerca de nosotros</string>
 </resources>

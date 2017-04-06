@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_cuenta"
+            android:checked="true"
+            android:icon="@drawable/ic_cuenta"
+            android:title="@string/cuenta_item" />
+        <item
+            android:id="@+id/nav_historial"
+            android:icon="@drawable/ic_historial"
+            android:title="@string/historial_item" />
+        <item
+            android:id="@+id/nav_pago"
+            android:icon="@drawable/ic_pago"
+            android:title="@string/pago_item" />
+        <item
+            android:id="@+id/nav_acerca_de_nosotros"
+            android:icon="@drawable/ic_acerca_de_nosotros"
+            android:title="@string/acerca_de_nosotros_item" />
+    </group>
+
+</menu>
