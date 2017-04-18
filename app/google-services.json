@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "300813040392",
+    "firebase_url": "https://telepeaje-162201.firebaseio.com",
+    "project_id": "telepeaje-162201",
+    "storage_bucket": "telepeaje-162201.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300813040392:android:8c8537c0476729bf",
+        "android_client_info": {
+          "package_name": "co.edu.udea.telepeaje"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300813040392-unm83ddgslvrq41o7s9r5g57vqu7ft69.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.edu.udea.telepeaje",
+            "certificate_hash": "a0bc365cecf3d92b660136ad8b8cf84b4457bb1d"
+          }
+        },
+        {
+          "client_id": "300813040392-oc7kqrtvot0avtnp1vujdduu31netfev.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIxrN0wEl_0TopV4jfxC7VKmrCM7e_kGY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300813040392-oc7kqrtvot0avtnp1vujdduu31netfev.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

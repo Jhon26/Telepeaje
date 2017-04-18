@@ -121,8 +121,8 @@
         tools:layout_editor_absoluteX="341dp"
         tools:layout_editor_absoluteY="188dp"
         android:layout_alignBottom="@+id/textView6"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button" />
+        android:layout_alignRight="@+id/sign_in_button"
+        android:layout_alignEnd="@+id/sign_in_button" />
 
     <Button
         android:id="@+id/button17"
@@ -147,7 +147,7 @@
         android:layout_toEndOf="@+id/switch3" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button"
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
