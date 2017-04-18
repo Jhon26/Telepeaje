@@ -55,6 +55,10 @@ public class RegistroEmailActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Log.i("SESSION", "usuario creado correctamente");
+                    editTextEmail.setText("");
+                    editTextPass.setText("");
+                    Intent intent = new Intent(RegistroEmailActivity.this, MisAutosActivity.class);
+                    startActivity(intent);
                 }else{
                     Log.e("SESSION", task.getException().getMessage()+"");
                 }

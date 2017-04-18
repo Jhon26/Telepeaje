@@ -157,8 +157,8 @@
     <TextView
         android:id="@+id/log_out_text_view"
         android:onClick="actionLogout"
-        android:layout_width="match_parent"
-        android:layout_height="57dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/scrollView2"
@@ -183,5 +183,15 @@
         app:elevation="6dp"
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_action_addbig2" />
+
+    <TextView
+        android:id="@+id/nombre_usuario_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/sign_in_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp" />
 
 </RelativeLayout>

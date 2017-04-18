@@ -25,12 +25,21 @@ public class MisAutosActivity extends AppCompatActivity {
 
     public static final String EXTRA_ORIGEN = "co.edu.udea.telepeaje.MisAutosActivity.CLASE_ORIGEN";*/
 
+    //Referencia a elementos de la interfaz
+    TextView textViewNombreUsuario;
+
     FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_autos);
+
+        //Referencia a elementos de la interfaz
+        textViewNombreUsuario = (TextView) findViewById(R.id.nombre_usuario_text_view);
+
+        //Se ponen los datos de la cuenta en los elementos de la interfaz
+        textViewNombreUsuario.setText("¡Hola "+FirebaseAuth.getInstance().getCurrentUser().getEmail()+"!");
 
         //Listener para la autenticación
         mAuthListener = new FirebaseAuth.AuthStateListener(){
