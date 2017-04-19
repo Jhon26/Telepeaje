@@ -42,6 +42,10 @@ public class RegistroEmailActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user!=null){//Sesion iniciada
                     Log.i("SESSION", "sesión iniciada con email: "+ user.getEmail());
+                    editTextEmail.setText("");
+                    editTextPass.setText("");
+                    Intent intent = new Intent(RegistroEmailActivity.this, MisAutosActivity.class);
+                    startActivity(intent);
                 }else{//Sesion cerrada
                     Log.i("SESSION", "sesión cerrada");
                 }
@@ -55,11 +59,12 @@ public class RegistroEmailActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Log.i("SESSION", "usuario creado correctamente");
-                    editTextEmail.setText("");
-                    editTextPass.setText("");
-                    Intent intent = new Intent(RegistroEmailActivity.this, MisAutosActivity.class);
-                    startActivity(intent);
                 }else{
+                    if(task.getException().getMessage().toString().equals(
+                            "The email address is badly formatted."
+                    )){
+                        editTextEmail.setError("Ingrese un correo electrónico válido");
+                    }
                     Log.e("SESSION", task.getException().getMessage()+"");
                 }
             }
@@ -69,7 +74,19 @@ public class RegistroEmailActivity extends AppCompatActivity {
     public void actionRegister(View view){
         String email = editTextEmail.getText().toString();
         String pass = editTextPass.getText().toString();
-        register(email, pass);
+        if((email==null)||(email.equals(""))){
+            editTextEmail.setError("Ingrese el email");
+            Log.e("SESSION", "Ingrese el email");
+        }else if((pass==null)||(pass.equals(""))){
+            editTextPass.setError("Ingrese una contraseña");
+            Log.e("SESSION", "Ingrese una contraseña");
+        }else if(pass.length()<6) {
+            editTextPass.setError("La contraseña debe contener al menos 6 caracteres");
+            Log.e("SESSION", "La contraseña debe contener al menos 6 caracteres");
+        }else{
+            register(email, pass);
+        }
+
     }
 
     @Override

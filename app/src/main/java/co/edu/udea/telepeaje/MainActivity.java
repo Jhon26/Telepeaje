@@ -69,6 +69,19 @@ public class MainActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Log.i("SESSION", "sesión iniciada");
                 }else{
+                    if(task.getException().getMessage().toString().equals(
+                            "The password is invalid or the user does not have a password.")){
+                        editTextPass.setError("Contraseña incorrecta");
+                    }else if((task.getException().getMessage().toString().equals(
+                            "There is no user record corresponding to this identifier. " +
+                                    "The user may have been deleted."))||
+                            (task.getException().getMessage().toString().equals(
+                                    "The email address is badly formatted."
+                            ))){
+                        editTextEmail.setError("Email incorrecto");
+                    }else{
+                        Log.e("SESSION", task.getException().getMessage()+"ningunooo");
+                    }
                     Log.e("SESSION", task.getException().getMessage()+"");
                 }
             }
@@ -78,7 +91,15 @@ public class MainActivity extends AppCompatActivity {
     public void actionLogin(View view){
         String email = editTextEmail.getText().toString();
         String pass = editTextPass.getText().toString();
-        login(email, pass);
+        if((email==null)||(email.equals(""))){
+            editTextEmail.setError("Ingrese el email");
+            Log.e("SESSION", "Ingrese el email");
+        }else if((pass==null)||(pass.equals(""))){
+            editTextPass.setError("Ingrese la contraseña");
+            Log.e("SESSION", "Ingrese la contraseña");
+        }else{
+            login(email, pass);
+        }
     }
 
     @Override
@@ -99,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void openRegistroEmail(View view){
+        editTextEmail.setText("");
+        editTextPass.setText("");
         Intent intent = new Intent(this, RegistroEmailActivity.class);
         startActivity(intent);
     }

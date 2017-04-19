@@ -50,6 +50,8 @@ public class MisAutosActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user==null){//Sesion cerrada
                     Log.i("SESSION", "sesión cerrada");
+                    Intent intent = new Intent(MisAutosActivity.this, MainActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             }
