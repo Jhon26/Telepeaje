@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -60,12 +61,19 @@ public class RegistroEmailActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Log.i("SESSION", "usuario creado correctamente");
                 }else{
+                    //Email mal formado
                     if(task.getException().getMessage().toString().equals(
                             "The email address is badly formatted."
                     )){
                         editTextEmail.setError("Ingrese un correo electrónico válido");
                     }
-                    Log.e("SESSION", task.getException().getMessage()+"");
+                    //Email ya en uso por otra cuenta
+                    else if(task.getException().getMessage().toString().equals(
+                            "The email address is already in use by another account."
+                    )){
+                        editTextEmail.setError("Este email ya está en uso por otra cuenta");
+                    }
+                    Log.e("SESSION", task.getException().getMessage().toString());
                 }
             }
         });

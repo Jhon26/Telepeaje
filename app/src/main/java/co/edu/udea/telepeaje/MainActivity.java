@@ -1,14 +1,18 @@
 package co.edu.udea.telepeaje;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -69,20 +73,30 @@ public class MainActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Log.i("SESSION", "sesión iniciada");
                 }else{
+                    //Contraseña incorrecta
                     if(task.getException().getMessage().toString().equals(
                             "The password is invalid or the user does not have a password.")){
                         editTextPass.setError("Contraseña incorrecta");
-                    }else if((task.getException().getMessage().toString().equals(
-                            "There is no user record corresponding to this identifier. " +
-                                    "The user may have been deleted."))||
-                            (task.getException().getMessage().toString().equals(
-                                    "The email address is badly formatted."
-                            ))){
-                        editTextEmail.setError("Email incorrecto");
-                    }else{
-                        Log.e("SESSION", task.getException().getMessage()+"ningunooo");
                     }
-                    Log.e("SESSION", task.getException().getMessage()+"");
+                    //Email no encontrado
+                    else if((task.getException().getMessage().toString().equals(
+                            "There is no user record corresponding to this identifier. " +
+                                    "The user may have been deleted."))){
+                        editTextEmail.setError("Email no encontrado");
+                    }
+                    //Email mal formado
+                    else if(task.getException().getMessage().toString().equals(
+                                    "The email address is badly formatted."
+                            )){
+                        editTextEmail.setError("Email inválido");
+                    }
+                    //Cuenta no habilitada para ingresar
+                    else if(task.getException().getMessage().toString().equals(
+                            "The user account has been disabled by an administrator."
+                    )){
+                        Toast.makeText(MainActivity.this, "Esta cuenta de usuario ha sido inhabilitada", Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("SESSION", task.getException().getMessage().toString());
                 }
             }
         });
@@ -126,9 +140,33 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-    public void openMisAutos(View view){
-        Intent intent = new Intent(this, MisAutosActivity.class);
-        startActivity(intent);
-    }*/
+    public void resetPass(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Reestablecer contraseña");
+        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText resetPass = (EditText) findViewById(R.id.edit_text_reset_pass);
+                FirebaseAuth.getInstance().sendPasswordResetEmail(resetPass.getText().toString().replaceAll(" ","")).addOnCompleteListener(
+                        new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(MainActivity.this,"¡Email enviado!",Toast.LENGTH_LONG).show();
+                                }else{
+                                    Toast.makeText(MainActivity.this,task.getException().getMessage().toString(),Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                );
+                dialog.dismiss();
+            }
+        });
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialoglayout = inflater.inflate(R.layout.alert_dialog_reset_pass, null);
+
+        builder.setView(dialoglayout);
+        builder.show();
+    }
 }
