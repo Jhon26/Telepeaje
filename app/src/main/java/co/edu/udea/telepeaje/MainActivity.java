@@ -140,33 +140,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void resetPass(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Reestablecer contraseña");
-        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                EditText resetPass = (EditText) findViewById(R.id.edit_text_reset_pass);
-                FirebaseAuth.getInstance().sendPasswordResetEmail(resetPass.getText().toString().replaceAll(" ","")).addOnCompleteListener(
-                        new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(MainActivity.this,"¡Email enviado!",Toast.LENGTH_LONG).show();
-                                }else{
-                                    Toast.makeText(MainActivity.this,task.getException().getMessage().toString(),Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        }
-                );
-                dialog.dismiss();
-            }
-        });
-
-        LayoutInflater inflater = getLayoutInflater();
-        View dialoglayout = inflater.inflate(R.layout.alert_dialog_reset_pass, null);
-
-        builder.setView(dialoglayout);
-        builder.show();
+    public void openResetPass(View view){
+        Intent intent = new Intent(this, ResetPassActivity.class);
+        startActivity(intent);
     }
 }
