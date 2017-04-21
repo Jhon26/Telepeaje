@@ -21,6 +21,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
+        //Implementación de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(FirebaseReferences.TUTORIAL_REFERENCE);
+        Log.i("KEY", myRef.getKey());
     }
 
     private void login(String email, String pass){
