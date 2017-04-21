@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +47,22 @@ public class MainActivity extends AppCompatActivity {
         buttonSignIn = (FloatingActionButton) findViewById(R.id.sign_in_button);
         textViewRegister = (TextView) findViewById(R.id.register_text_view);
         textViewForgot = (TextView) findViewById(R.id.forgot_pass_text_view);
+
+        /*
+        //No permitir espacios en los editText
+        InputFilter filter = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                for (int i = start; i < end; i++) {
+                    if ( !Character.isLetterOrDigit(source.charAt(i)) || !Character.toString(source.charAt(i)).equals("_") || !Character.toString(source.charAt(i)).equals("-")) {
+                        return "";
+                    }
+                }
+                return null;
+            }
+        };
+        editTextEmail.setFilters(new InputFilter[]{filter});
+        */
 
         //Listener para la autenticación
         mAuthListener = new FirebaseAuth.AuthStateListener(){
@@ -103,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void actionLogin(View view){
-        String email = editTextEmail.getText().toString();
-        String pass = editTextPass.getText().toString();
+        String email = editTextEmail.getText().toString().replaceAll(" ", "");
+        String pass = editTextPass.getText().toString().replaceAll(" ", "");
         if((email==null)||(email.equals(""))){
             editTextEmail.setError("Ingrese el email");
             Log.e("SESSION", "Ingrese el email");

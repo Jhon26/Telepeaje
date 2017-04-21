@@ -44,7 +44,7 @@
             android:ems="10"
             android:hint="Correo electrónico"
             android:inputType="textEmailAddress"
-            android:textAlignment="center" />
+            android:textAlignment="center"/>
 
         <EditText
             android:id="@+id/pass_login_edit_text"

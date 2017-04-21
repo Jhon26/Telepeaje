@@ -80,8 +80,8 @@ public class RegistroEmailActivity extends AppCompatActivity {
     }
 
     public void actionRegister(View view){
-        String email = editTextEmail.getText().toString();
-        String pass = editTextPass.getText().toString();
+        String email = editTextEmail.getText().toString().replaceAll(" ", "");
+        String pass = editTextPass.getText().toString().replaceAll(" ", "");
         if((email==null)||(email.equals(""))){
             editTextEmail.setError("Ingrese el email");
             Log.e("SESSION", "Ingrese el email");
