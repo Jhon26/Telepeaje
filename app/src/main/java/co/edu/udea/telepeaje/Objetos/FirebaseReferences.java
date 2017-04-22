@@ -6,4 +6,5 @@ package co.edu.udea.telepeaje.Objetos;
 
 public class FirebaseReferences {
     final public static String TUTORIAL_REFERENCE = "tutorial";
+    final public static String AUTO_REFERENCE = "autos";
 }

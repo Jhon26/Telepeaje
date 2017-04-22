@@ -21,10 +21,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
+import co.edu.udea.telepeaje.Objetos.Pago;
+import co.edu.udea.telepeaje.Objetos.TarjetaDeCredito;
+import co.edu.udea.telepeaje.Objetos.Usuario;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,10 +94,70 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        //Implementación de la base de datos
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(FirebaseReferences.TUTORIAL_REFERENCE);
-        Log.i("KEY", myRef.getKey());
+        //IMPLEMENTACIÓN DE LA BASE DE DATOS
+
+        //**********Lectura de datos**********
+        FirebaseDatabase database = FirebaseDatabase.getInstance();//Se coge la instancia de la base de datos
+        final DatabaseReference tutorialRef = database.getReference(FirebaseReferences.TUTORIAL_REFERENCE);//Se coge la referencia al dato que queramos
+
+        //Escritura de un valor
+        //myRef.setValue(921126);
+
+        //Lectura cada que se modifique el valor en la base de datos
+        /*myRef.addValueEventListener(new ValueEventListener() {//Se añade un listener para cuando el dato cambie
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int valor = dataSnapshot.getValue(Integer.class);
+                Log.i("DATOS", valor+"");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("ERROR", databaseError.getMessage().toString());
+            }
+        });*/
+
+        //Lectura sólo una vez
+        /*
+        * El mismo código de la lectura cada que se modifique la base de datos pero en lugar de llamar al método
+        * addValueEventListener se llama al método addListenerForSingleValueEvent
+        * */
+
+        //Escritura de un valor sin borrar el anterior (Firebase crea keys para cada valor)
+        //tutorialRef.push().setValue(318);
+
+        //Lectura de ese tipo de valor (ya no es integer sino que son otros objetos)
+        /*tutorialRef.child(FirebaseReferences.AUTO_REFERENCE).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Auto auto = dataSnapshot.getValue(Auto.class);
+                Log.i("AUTO", auto.getMarca());//Solo un valor
+                Log.i("AUTO", dataSnapshot.toString());//El JSON del objeto
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
+
+        //Escritura de varios valores
+        /*buttonSignIn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Auto auto = new Auto("Toyota", 6, 4, "Olga Bolivar");
+                tutorialRef.child(FirebaseReferences.AUTO_REFERENCE).push().setValue(auto);
+            }
+        });*/
+
+        /*
+        short mes = 11;
+        short ano = 19;
+        short cvv = 123;
+        TarjetaDeCredito tc = new TarjetaDeCredito(1232131232, mes, ano, cvv);
+        Pago[] pagos = {tc};
+        Usuario usuario = new Usuario();
+        usuario.setPagos(pagos);*/
     }
 
     private void login(String email, String pass){

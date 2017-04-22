@@ -24,7 +24,7 @@ public class ResetPassActivity extends AppCompatActivity {
     }
 
     public void resetPass(View view){
-        EditText resetPass = (EditText) findViewById(R.id.edit_text_reset_pass);
+        final EditText resetPass = (EditText) findViewById(R.id.edit_text_reset_pass);
         String resetPassText = resetPass.getText().toString().replaceAll(" ","");
         if((resetPassText==null)||resetPassText.equals("")){
             resetPass.setError("Ingrese el email");
@@ -44,13 +44,13 @@ public class ResetPassActivity extends AppCompatActivity {
                                 if(task.getException().getMessage().toString().equals(
                                         "There is no user record corresponding to this identifier. The user may have been deleted."
                                 )){
-                                    Toast.makeText(ResetPassActivity.this,"Este correo no está registrado en el sistema.",Toast.LENGTH_LONG).show();
+                                    resetPass.setError("Este correo no está registrado en el sistema");
                                 }
                                 //El email está mal copiado
                                 else if(task.getException().getMessage().equals(
                                         "An internal error has occurred. [ INVALID_EMAIL ]"
                                 )){
-                                    Toast.makeText(ResetPassActivity.this,"Ingrese un email correcto.",Toast.LENGTH_LONG).show();
+                                    resetPass.setError("Ingrese un email correcto.");
                                 }
                                 //Otro error
                                 else{

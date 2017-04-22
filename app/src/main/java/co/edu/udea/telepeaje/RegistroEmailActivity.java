@@ -42,7 +42,7 @@ public class RegistroEmailActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user!=null){//Sesion iniciada
-                    Log.i("SESSION", "sesión iniciada con email: "+ user.getEmail());
+                    Log.i("SESSION", "sesión creada con email: "+ user.getEmail());
                     editTextEmail.setText("");
                     editTextPass.setText("");
                     Intent intent = new Intent(RegistroEmailActivity.this, MisAutosActivity.class);
