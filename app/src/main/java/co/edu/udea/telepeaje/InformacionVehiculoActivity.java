@@ -9,8 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import co.edu.udea.telepeaje.Objetos.Auto;
-import co.edu.udea.telepeaje.Objetos.Usuario;
+import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
 
 public class InformacionVehiculoActivity extends AppCompatActivity {
 
@@ -38,7 +41,7 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
         spinnerTipoDocPropietario = (Spinner) findViewById(R.id.tipo_pago_spinner);
         editTextNumeroDocPropietario = (EditText) findViewById(R.id.numero_doc_propietario_edit_text);
         editTextPlaca = (EditText) findViewById(R.id.placa_edit_text);
-        editTextNombrePersonalizado = (EditText) findViewById(R.id.numero_tarjeta_edit_text);
+        editTextNombrePersonalizado = (EditText) findViewById(R.id.nombre_personalizado_edit_text);
         //Configuración del spinner
         ArrayAdapter spinner_adapter = ArrayAdapter.createFromResource( this, R.array.tipos_identificacion , android.R.layout.simple_spinner_item);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -54,7 +57,7 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
         //Se establece que acción debe realizar el button
         if(origen.equals("InformacionPersonalActivity")){
             //Validación de datos
-            nombrePropietario = editTextNumeroDocPropietario.getText().toString().trim();
+            nombrePropietario = editTextNombrePropietario.getText().toString().trim();
             tipoDocPropietario = spinnerTipoDocPropietario.getSelectedItem().toString();
             numeroDocPropietario = editTextNumeroDocPropietario.getText().toString().trim();
             placa = editTextPlaca.getText().toString().trim();
@@ -76,24 +79,28 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
                 Log.e("SESSION", "Ingrese el número de la placa con el formato (XXX-XXX)");
             }else{
                 //Se construye un auto para el usuario
-                Auto auto = new Auto(nombrePropietario, tipoDocPropietario, numeroDocPropietario, placa, nombrePersonalizado);
-                /*
+                Auto auto = new Auto();
                 auto.setNombrePropietario(nombrePropietario);
                 auto.setTipoDocPropietario(tipoDocPropietario);
                 auto.setNumeroDocPropietario(numeroDocPropietario);
                 auto.setPlaca(placa);
-                auto.setNombrePersonalizado(nombrePersonalizado);*/
+                auto.setNombrePersonalizado(nombrePersonalizado);
 
-
-                //Se continua con la construcción del usuario
-                Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
-                //usuario.setAuto(auto);
+                //Finalmente se escribe el auto en la base de datos para el usuario correspondiente.
+                //Primero se toma la instancia de la base de datos
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                //Se toma la key del usuario definida desde la actividad anterior
+                String usuarioKey = getIntent().getStringExtra("usuarioKey");
+                //Se toma la referencia de todos los usuarios
+                DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
+                //Se busca el usuario correspondiente dentro de todos los usuarios
+                DatabaseReference usuarioRef = usuariosRef.child(usuarioKey);
+                // Al usuario se le añade un "hijo" llamado autos y se le "empuja" un primer valor
+                usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE).push().setValue(auto);
 
                 //Construcción del intent
                 Intent intent = new Intent(this, InformacionPagoActivity.class);
-
-                //Se pasan los datos del usuario a la siguiente actividad
-                intent.putExtra("usuario", usuario);
+                intent.putExtra("usuarioKey", getIntent().getStringExtra("usuarioKey"));
                 startActivity(intent);
             }
         }else if(origen.equals("MisAutosActivity")){

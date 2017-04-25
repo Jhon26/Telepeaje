@@ -9,6 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
 import co.edu.udea.telepeaje.Objetos.Usuario;
 
 public class InformacionPersonalActivity extends AppCompatActivity {
@@ -38,7 +42,7 @@ public class InformacionPersonalActivity extends AppCompatActivity {
 
         //Referencias a elementos de la interfaz
         editTextNombres = (EditText) findViewById(R.id.numero_doc_propietario_edit_text);
-        editTextApellidos = (EditText) findViewById(R.id.numero_tarjeta_edit_text);
+        editTextApellidos = (EditText) findViewById(R.id.nombre_personalizado_edit_text);
         spinnerCodigoArea = (Spinner) findViewById(R.id.tipo_pago_spinner);
         editTextCelular = (EditText) findViewById(R.id.placa_edit_text);
         //Configuración del spinner
@@ -68,13 +72,27 @@ public class InformacionPersonalActivity extends AppCompatActivity {
             usuario.setApellidos(apellidos);
             usuario.setCelular(Long.parseLong(celular));
 
-            //Construcción del intent
-            Intent intent = new Intent(this, InformacionVehiculoActivity.class);
-            //Se pasan los datos del usuario a la siguiente actividad
-            intent.putExtra("usuario", usuario);
+            //Finalmente se escribe el usuario en la base de datos.
+            // Primero se toma la instancia de la BD
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            //Se coge la referencia al dato que queramos, en este caso el usuario que se insertará
+            final DatabaseReference usuarioRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE).push();
+            //Se le pone valor a esa referencia
+            usuarioRef.setValue(usuario);
+            //Se toma la key de ese usuario insertado para posteriores implementaciones
+            String usuarioKey = usuarioRef.getKey();
+
             //claseOrigen informa a la siguiente actividad desde dónde fue lanzada
             String origen = this.getLocalClassName();
+
+            //Construcción del intent
+            Intent intent = new Intent(this, InformacionVehiculoActivity.class);
+
+            //Se pasan los datos necesarios mediante el intent
+            intent.putExtra("usuarioKey", usuarioKey);
             intent.putExtra("claseOrigen", origen);
+
+            //Se inicia la actividad
             startActivity(intent);
         }
     }

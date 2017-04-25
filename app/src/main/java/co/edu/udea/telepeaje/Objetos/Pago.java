@@ -5,18 +5,18 @@ package co.edu.udea.telepeaje.Objetos;
  */
 
 public class Pago {
-    String tipo;
+    String tipo="";
     long numeroTarjeta=0;
     int mesVencimiento=0;
     int anoVencimiento=0;
-    int cvv=0;
+    String cvv="";
     String correo="";
     String contrasena="";
 
     public Pago() {
     }
 
-    public Pago(String tipo, long numeroTarjeta, int mesVencimiento, int anoVencimiento, int cvv, String correo, String contrasena) {
+    public Pago(String tipo, long numeroTarjeta, int mesVencimiento, int anoVencimiento, String cvv, String correo, String contrasena) {
         this.tipo = tipo;
         this.numeroTarjeta = numeroTarjeta;
         this.mesVencimiento = mesVencimiento;
@@ -58,11 +58,11 @@ public class Pago {
         this.anoVencimiento = anoVencimiento;
     }
 
-    public int getCvv() {
+    public String getCvv() {
         return cvv;
     }
 
-    public void setCvv(int cvv) {
+    public void setCvv(String cvv) {
         this.cvv = cvv;
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-autos"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,12 +29,12 @@
         tools:layout_editor_absoluteX="83dp"
         tools:layout_editor_absoluteY="93dp"
         android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/numero_tarjeta_edit_text"
-        android:layout_alignStart="@+id/numero_tarjeta_edit_text"
+        android:layout_alignLeft="@+id/nombre_personalizado_edit_text"
+        android:layout_alignStart="@+id/nombre_personalizado_edit_text"
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:id="@+id/numero_tarjeta_edit_text"
+        android:id="@+id/nombre_personalizado_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -51,9 +51,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:layout_below="@+id/numero_tarjeta_edit_text"
-        android:layout_alignLeft="@+id/numero_tarjeta_edit_text"
-        android:layout_alignStart="@+id/numero_tarjeta_edit_text" />
+        android:layout_below="@+id/nombre_personalizado_edit_text"
+        android:layout_alignLeft="@+id/nombre_personalizado_edit_text"
+        android:layout_alignStart="@+id/nombre_personalizado_edit_text" />
 
     <EditText
         android:id="@+id/placa_edit_text"
@@ -63,10 +63,10 @@
         android:hint="Celular"
         android:textAlignment="center"
         android:inputType="phone"
-        android:layout_below="@+id/numero_tarjeta_edit_text"
+        android:layout_below="@+id/nombre_personalizado_edit_text"
         android:layout_toRightOf="@+id/tipo_pago_spinner"
-        android:layout_alignRight="@+id/numero_tarjeta_edit_text"
-        android:layout_alignEnd="@+id/numero_tarjeta_edit_text" />
+        android:layout_alignRight="@+id/nombre_personalizado_edit_text"
+        android:layout_alignEnd="@+id/nombre_personalizado_edit_text" />
 
 
     <android.support.design.widget.FloatingActionButton
