@@ -30,14 +30,13 @@ import com.google.firebase.database.ValueEventListener;
 import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
 import co.edu.udea.telepeaje.Objetos.Pago;
-import co.edu.udea.telepeaje.Objetos.TarjetaDeCredito;
 import co.edu.udea.telepeaje.Objetos.Usuario;
 
 public class MainActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "co.edu.udea.telepeaje.MESSAGE";
 
-    //Referencias a elementos
+    //Referencias a elementos de la interfaz
     EditText editTextEmail, editTextPass;
     FloatingActionButton buttonSignIn;
     TextView textViewRegister, textViewForgot;

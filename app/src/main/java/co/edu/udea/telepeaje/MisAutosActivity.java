@@ -69,9 +69,9 @@ public class MisAutosActivity extends AppCompatActivity {
     public void openMiAuto(View view){
         Intent intent = new Intent(this, MiAutoActivity.class);
         //Segun el tag de la cardView, se extrae el texto de los elementos que esta contiene
-        TextView placaTextView = (TextView) findViewById(getResources().getIdentifier("placa".concat(view.getTag().toString()), "id", getPackageName()));
+        TextView placaTextView = (TextView) findViewById(getResources().getIdentifier("editTextPlaca".concat(view.getTag().toString()), "id", getPackageName()));
         String placa = placaTextView.getText().toString();
-        intent.putExtra("placa", placa);
+        intent.putExtra("editTextPlaca", placa);
         TextView nombreAutoTextView = (TextView) findViewById(getResources().getIdentifier("nombreAuto".concat(view.getTag().toString()), "id", getPackageName()));
         String nombreAuto = nombreAutoTextView.getText().toString();
         intent.putExtra("nombreAuto", nombreAuto);

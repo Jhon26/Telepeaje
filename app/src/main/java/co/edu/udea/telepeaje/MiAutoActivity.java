@@ -22,7 +22,7 @@ public class MiAutoActivity extends AppCompatActivity {
         String nombreAuto = intent.getStringExtra("nombreAuto");
         String pago = ConfiguracionAuto.getPago();
         String peajes = intent.getStringExtra("peajes");
-        String placa =  intent.getStringExtra("placa");
+        String placa =  intent.getStringExtra("editTextPlaca");
 
         //Se obtienen los componentes de la actividad actual
         TextView placaTextView = (TextView) findViewById(R.id.placaMiAuto);

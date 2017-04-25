@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,11 +15,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import co.edu.udea.telepeaje.Objetos.Usuario;
+
 public class RegistroEmailActivity extends AppCompatActivity {
 
-    //Referencias a elementos
+    //Referencias a elementos de la interfaz
     EditText editTextEmail, editTextPass;
     FloatingActionButton buttonRegister;
+
+    //Datos para el registro del usuario
+    private String email;
+    private String pass;
 
     FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -29,9 +34,9 @@ public class RegistroEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_email);
 
-        //Referencias a elementos
-        editTextEmail = (EditText) findViewById(R.id.email_register_edit_text);
-        editTextPass = (EditText) findViewById(R.id.pass_register_edit_text);
+        //Referencias a elementos de la interfaz
+        editTextEmail = (EditText) findViewById(R.id.nombre_propietario_edit_text);
+        editTextPass = (EditText) findViewById(R.id.numero_doc_propietario_edit_text);
         buttonRegister = (FloatingActionButton) findViewById(R.id.register_button);
 
         //Se declara el listener
@@ -42,10 +47,19 @@ public class RegistroEmailActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user!=null){//Sesion iniciada
-                    Log.i("SESSION", "sesión creada con email: "+ user.getEmail());
+                    Log.i("SESSION", "Usuaro creado con email: "+ user.getEmail());
+
+                    //Creación del usuario e instauración de sus primeros datos
+                    Usuario usuario = new Usuario();
+                    usuario.setCorreo(email);
+
+                    //Se limpian los campos de texto
                     editTextEmail.setText("");
                     editTextPass.setText("");
-                    Intent intent = new Intent(RegistroEmailActivity.this, MisAutosActivity.class);
+
+                    //Creación del intent y paso de datos
+                    Intent intent = new Intent(RegistroEmailActivity.this, InformacionPersonalActivity.class);
+                    intent.putExtra("usuario", usuario);
                     startActivity(intent);
                 }else{//Sesion cerrada
                     Log.i("SESSION", "sesión cerrada");
@@ -80,8 +94,8 @@ public class RegistroEmailActivity extends AppCompatActivity {
     }
 
     public void actionRegister(View view){
-        String email = editTextEmail.getText().toString().replaceAll(" ", "");
-        String pass = editTextPass.getText().toString().replaceAll(" ", "");
+        email = editTextEmail.getText().toString().replaceAll(" ", "");
+        pass = editTextPass.getText().toString().replaceAll(" ", "");
         if((email==null)||(email.equals(""))){
             editTextEmail.setError("Ingrese el email");
             Log.e("SESSION", "Ingrese el email");

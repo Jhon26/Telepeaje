@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:id="@+id/email_register_edit_text"
+        android:id="@+id/nombre_propietario_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="37dp"
@@ -36,7 +36,7 @@
         android:layout_alignStart="@+id/textView" />
 
     <EditText
-        android:id="@+id/pass_register_edit_text"
+        android:id="@+id/numero_doc_propietario_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
@@ -44,19 +44,19 @@
         android:textAlignment="center"
         android:hint="Contraseña"
         android:inputType="textPassword"
-        android:layout_below="@+id/email_register_edit_text"
-        android:layout_alignLeft="@+id/email_register_edit_text"
-        android:layout_alignStart="@+id/email_register_edit_text"
-        android:layout_alignRight="@+id/email_register_edit_text"
-        android:layout_alignEnd="@+id/email_register_edit_text" />
+        android:layout_below="@+id/nombre_propietario_edit_text"
+        android:layout_alignLeft="@+id/nombre_propietario_edit_text"
+        android:layout_alignStart="@+id/nombre_propietario_edit_text"
+        android:layout_alignRight="@+id/nombre_propietario_edit_text"
+        android:layout_alignEnd="@+id/nombre_propietario_edit_text" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/pass_register_edit_text"
-        android:layout_alignRight="@+id/pass_register_edit_text"
-        android:layout_alignTop="@+id/pass_register_edit_text"
+        android:layout_alignEnd="@+id/numero_doc_propietario_edit_text"
+        android:layout_alignRight="@+id/numero_doc_propietario_edit_text"
+        android:layout_alignTop="@+id/numero_doc_propietario_edit_text"
         android:layout_marginTop="59dp"
         android:clickable="true"
         android:onClick="actionRegister"

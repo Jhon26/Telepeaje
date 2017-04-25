@@ -1,35 +1,39 @@
 package co.edu.udea.telepeaje.Objetos;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * Created by bairon.alvarez on 21/04/17.
  */
 
-public class Usuario {
-    String email;
+//Clase POJO para un usuario. Implementa la interfaz Serializable para que pueda ser pasada a través de activities
+public class Usuario implements Serializable{
+    String correo;
     String nombres;
     String apellidos;
     long celular;
-    Auto[] autos;
-    Pago[] pagos;
+    List<Auto> autos;
+    List<Pago> pagos;
 
     public Usuario() {
     }
 
-    public Usuario(String email, String nombres, String apellidos, long celular, Auto[] autos, Pago[] pagos) {
-        this.email = email;
+    public Usuario(String correo, String nombres, String apellidos, long celular, Auto auto, Pago pago) {
+        this.correo = correo;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.celular = celular;
-        this.autos = autos;
-        this.pagos = pagos;
+        this.autos.add(auto);
+        this.pagos.add(pago);
     }
 
-    public String getEmail() {
-        return email;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getNombres() {
@@ -56,19 +60,19 @@ public class Usuario {
         this.celular = celular;
     }
 
-    public Auto[] getAutos() {
+    public List<Auto> getAutos() {
         return autos;
     }
 
-    public void setAutos(Auto[] autos) {
-        this.autos = autos;
+    public void setAuto(Auto auto) {
+        this.autos.add(auto);
     }
 
-    public Pago[] getPagos() {
+    public List<Pago> getPago() {
         return pagos;
     }
 
-    public void setPagos(Pago[] pagos) {
-        this.pagos = pagos;
+    public void setPago(Pago pago) {
+        this.pagos.add(pago);
     }
 }

@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"/>
 
     <EditText
-        android:id="@+id/pass_register_edit_text"
+        android:id="@+id/numero_doc_propietario_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -29,12 +29,12 @@
         tools:layout_editor_absoluteX="83dp"
         tools:layout_editor_absoluteY="93dp"
         android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/editText4"
-        android:layout_alignStart="@+id/editText4"
+        android:layout_alignLeft="@+id/numero_tarjeta_edit_text"
+        android:layout_alignStart="@+id/numero_tarjeta_edit_text"
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/numero_tarjeta_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -43,44 +43,44 @@
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="83dp"
         tools:layout_editor_absoluteY="110dp"
-        android:layout_below="@+id/pass_register_edit_text"
+        android:layout_below="@+id/numero_doc_propietario_edit_text"
         android:layout_centerHorizontal="true" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/tipo_pago_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:layout_below="@+id/editText4"
-        android:layout_alignLeft="@+id/editText4"
-        android:layout_alignStart="@+id/editText4" />
+        android:layout_below="@+id/numero_tarjeta_edit_text"
+        android:layout_alignLeft="@+id/numero_tarjeta_edit_text"
+        android:layout_alignStart="@+id/numero_tarjeta_edit_text" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/placa_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Celular"
         android:textAlignment="center"
         android:inputType="phone"
-        android:layout_below="@+id/editText4"
-        android:layout_toRightOf="@+id/spinner"
-        android:layout_alignRight="@+id/editText4"
-        android:layout_alignEnd="@+id/editText4" />
+        android:layout_below="@+id/numero_tarjeta_edit_text"
+        android:layout_toRightOf="@+id/tipo_pago_spinner"
+        android:layout_alignRight="@+id/numero_tarjeta_edit_text"
+        android:layout_alignEnd="@+id/numero_tarjeta_edit_text" />
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button2"
+        android:id="@+id/info_personal_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="openInformacionVehiculo"
+        android:layout_alignEnd="@+id/placa_edit_text"
+        android:layout_alignRight="@+id/placa_edit_text"
+        android:layout_below="@+id/placa_edit_text"
         android:clickable="true"
+        android:onClick="openInformacionVehiculo"
         app:backgroundTint="@android:color/black"
         app:elevation="24dp"
         app:fabSize="mini"
-        app:srcCompat="@drawable/ic_action_compose"
-        android:layout_below="@+id/editText3"
-        android:layout_alignRight="@+id/editText3"
-        android:layout_alignEnd="@+id/editText3" />
+        app:srcCompat="@drawable/ic_action_compose" />
 
 </RelativeLayout>

@@ -66,6 +66,7 @@
             android:layout_toEndOf="@+id/pass_login_edit_text"
             android:layout_toRightOf="@+id/pass_login_edit_text"
             android:clickable="true"
+            android:onClick="actionLogin"
             app:backgroundTint="@android:color/black"
             app:elevation="6dp"
             app:fabSize="mini"

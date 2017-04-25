@@ -3,9 +3,13 @@ package co.edu.udea.telepeaje;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+
+import co.edu.udea.telepeaje.Objetos.Usuario;
 
 public class InformacionPersonalActivity extends AppCompatActivity {
 
@@ -16,21 +20,63 @@ public class InformacionPersonalActivity extends AppCompatActivity {
 
     public static final String EXTRA_ORIGEN = "co.edu.udea.telepeaje.InformacionPersonalActivity.CLASE_ORIGEN"; */
 
+    //Referencias a elementos de la interfaz
+    EditText editTextNombres;
+    EditText editTextApellidos;
+    Spinner spinnerCodigoArea;
+    EditText editTextCelular;
+
+    //Datos para el registro del usuario
+    String nombres;
+    String apellidos;
+    String celular;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_personal);
-        /*Spinner spinner_animales = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter spinner_adapter = ArrayAdapter.createFromResource( this, R.array.tiposIdentificacion , android.R.layout.simple_spinner_item);
-        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_animales.setAdapter(spinner_adapter);*/
+
+        //Referencias a elementos de la interfaz
+        editTextNombres = (EditText) findViewById(R.id.numero_doc_propietario_edit_text);
+        editTextApellidos = (EditText) findViewById(R.id.numero_tarjeta_edit_text);
+        spinnerCodigoArea = (Spinner) findViewById(R.id.tipo_pago_spinner);
+        editTextCelular = (EditText) findViewById(R.id.placa_edit_text);
+        //Configuración del spinner
+        ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource( this, R.array.codigos_area, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCodigoArea.setAdapter(spinnerAdapter);
     }
 
     public void openInformacionVehiculo(View view){
-        Intent intent = new Intent(this, InformacionVehiculoActivity.class);
-        String origen = this.getLocalClassName();
-        intent.putExtra("claseOrigen", origen);
-        startActivity(intent);
+        //Validación de datos
+        nombres = editTextNombres.getText().toString().trim();
+        apellidos = editTextApellidos.getText().toString().trim();
+        celular = spinnerCodigoArea.getSelectedItem().toString().concat(editTextCelular.getText().toString().trim());
+        if((nombres==null)||(nombres.equals(""))){
+            editTextNombres.setError("Ingrese el nombre");
+            Log.e("SESSION", "Ingrese el nombre");
+        }else if((apellidos==null)||(apellidos.equals(""))){
+            editTextApellidos.setError("Ingrese el apellido");
+            Log.e("SESSION", "Ingrese el apellido");
+        }else if((celular==null)||(celular.equals(""))){
+            editTextCelular.setError("Ingrese el número de celular");
+            Log.e("SESSION", "Ingrese el número de celular");
+        }else{
+            //Se continua con la construcción del usuario
+            Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+            usuario.setNombres(nombres);
+            usuario.setApellidos(apellidos);
+            usuario.setCelular(Long.parseLong(celular));
+
+            //Construcción del intent
+            Intent intent = new Intent(this, InformacionVehiculoActivity.class);
+            //Se pasan los datos del usuario a la siguiente actividad
+            intent.putExtra("usuario", usuario);
+            //claseOrigen informa a la siguiente actividad desde dónde fue lanzada
+            String origen = this.getLocalClassName();
+            intent.putExtra("claseOrigen", origen);
+            startActivity(intent);
+        }
     }
 
 }
