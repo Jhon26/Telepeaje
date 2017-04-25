@@ -1,159 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-autos"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.edu.udea.telepeaje.InformacionPagoActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="440dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:id="@+id/scrollView2">
-        <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/layout_mis_autos"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="co.edu.udea.telepeaje.InformacionPagoActivity">
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:fillViewport="true"
+        android:scrollbarStyle="outsideInset" >
 
-            <android.support.v7.widget.CardView
-                android:tag="1"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:clickable="true"
-                android:onClick="openMiAuto">
-                <TextView
-                    android:id="@+id/nombreAuto1"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="AUTO HIJO"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="15dp"
-                    android:textSize="20dp"/>
-
-                <TextView
-                    android:id="@+id/cantidadPeajes1"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:paddingTop="27dp"
-                    android:paddingLeft="15dp"
-                    android:text="2 peajes habilitado(s)"
-                    android:textSize="15dp" />
-                <TextView
-                    android:id="@+id/placa1"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="250dp"
-                    android:text="(HBT-901)"
-                    android:textSize="15dp" />
-                <TextView
-                    android:id="@+id/pago1"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:paddingTop="27dp"
-                    android:paddingLeft="250dp"
-                    android:text="VISA-9171"
-                    android:textSize="15dp" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:tag="2"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="90dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:clickable="true"
-                android:onClick="openMiAuto">
-                <TextView
-                    android:id="@+id/nombreAuto2"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="CAMIÓN EMPRESA"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="15dp"
-                    android:textSize="20dp"/>
-
-                <TextView
-                    android:id="@+id/cantidadPeajes2"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:paddingTop="27dp"
-                    android:paddingLeft="15dp"
-                    android:text="7 peajes habilitado(s)"
-                    android:textSize="15dp" />
-                <TextView
-                    android:id="@+id/placa2"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="250dp"
-                    android:text="(TPK-100)"
-                    android:textSize="15dp" />
-                <TextView
-                    android:id="@+id/pago2"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:paddingTop="27dp"
-                    android:paddingLeft="250dp"
-                    android:text="PAYPAL"
-                    android:textSize="15dp" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:tag="3"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="160dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:clickable="true"
-                android:onClick="openMiAuto">
-                <TextView
-                    android:id="@+id/nombreAuto3"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="MI HYUNDAI"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="15dp"
-                    android:textSize="20dp"/>
-
-                <TextView
-                    android:id="@+id/cantidadPeajes3"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:paddingTop="27dp"
-                    android:paddingLeft="15dp"
-                    android:text="1 peaje habilitado(s)"
-                    android:textSize="15dp" />
-                <TextView
-                    android:id="@+id/placa3"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="250dp"
-                    android:text="(BLV-451)"
-                    android:textSize="15dp" />
-                <TextView
-                    android:id="@+id/pago3"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:paddingTop="27dp"
-                    android:paddingLeft="250dp"
-                    android:text="VISA-9171"
-                    android:textSize="15dp" />
-            </android.support.v7.widget.CardView>
-
-        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
     </ScrollView>
 
     <TextView
@@ -161,39 +29,36 @@
         android:onClick="actionLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/scrollView2"
         android:paddingLeft="25dp"
         android:text="Cerrar Sesión"
         android:textSize="15dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginBottom="17dp"
+        android:layout_alignParentBottom="true" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/sign_in_button"
+        android:id="@+id/agregar_auto_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/scrollView2"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
         android:clickable="true"
-        android:onClick="openInformacionVehiculo"
+        android:onClick="agregarAuto"
         app:backgroundTint="@android:color/black"
         app:elevation="6dp"
         app:fabSize="mini"
-        app:srcCompat="@drawable/ic_action_addbig2" />
+        app:srcCompat="@drawable/ic_action_addbig2"
+        android:layout_alignBottom="@+id/log_out_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/nombre_usuario_text_view"
+        android:text="Saludo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/sign_in_button"
+        android:layout_above="@+id/log_out_text_view"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="26dp"
-        android:layout_marginStart="26dp" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

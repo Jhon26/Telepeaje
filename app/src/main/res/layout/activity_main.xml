@@ -59,7 +59,7 @@
             android:textAlignment="center" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/sign_in_button"
+            android:id="@+id/agregar_auto_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/pass_login_edit_text"
@@ -80,7 +80,7 @@
             android:text="¿No tienes cuenta?"
             android:layout_marginLeft="11dp"
             android:layout_marginStart="11dp"
-            android:layout_below="@+id/sign_in_button"
+            android:layout_below="@+id/agregar_auto_button"
             android:layout_alignLeft="@+id/pass_login_edit_text"
             android:layout_alignStart="@+id/pass_login_edit_text" />
 

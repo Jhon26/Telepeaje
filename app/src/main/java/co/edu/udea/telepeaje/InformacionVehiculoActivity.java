@@ -53,58 +53,58 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
     /InformacionPersonalActivity o puede abrir MisAutosActivity si la actividad que dio origen a esta fue precisamente
     /la actividad MisAutosActivity*/
     public void siguienteActivity(View view){
-        String origen = getIntent().getStringExtra("claseOrigen");
-        //Se establece que acción debe realizar el button
-        if(origen.equals("InformacionPersonalActivity")){
-            //Validación de datos
-            nombrePropietario = editTextNombrePropietario.getText().toString().trim();
-            tipoDocPropietario = spinnerTipoDocPropietario.getSelectedItem().toString();
-            numeroDocPropietario = editTextNumeroDocPropietario.getText().toString().trim();
-            placa = editTextPlaca.getText().toString().trim();
-            nombrePersonalizado = editTextNombrePersonalizado.getText().toString().trim();
-            if((nombrePropietario==null)||(nombrePropietario.equals(""))){
-                editTextNombrePropietario.setError("Ingrese el nombre del propietario");
-                Log.e("SESSION", "Ingrese el nombre del propietario");
-            }else if((numeroDocPropietario==null)||(numeroDocPropietario.equals(""))){
-                editTextNumeroDocPropietario.setError("Ingrese el número de documento del propietario");
-                Log.e("SESSION", "Ingrese el número de documento del propietario");
-            }else if((placa==null)||(placa.equals(""))){
-                editTextPlaca.setError("Ingrese la placa del vehículo");
-                Log.e("SESSION", "Ingrese la placa del vehículo");
-            }else if((nombrePersonalizado==null)||(nombrePersonalizado.equals(""))){
-                editTextPlaca.setError("Ingrese el nombre personalizado del vehículo");
-                Log.e("SESSION", "Ingrese el nombre personalizado del vehículo");
-            }else if(placa.length()!=7) {
-                editTextPlaca.setError("Ingrese el número de la placa con el formato (XXX-XXX)");
-                Log.e("SESSION", "Ingrese el número de la placa con el formato (XXX-XXX)");
-            }else{
-                //Se construye un auto para el usuario
-                Auto auto = new Auto();
-                auto.setNombrePropietario(nombrePropietario);
-                auto.setTipoDocPropietario(tipoDocPropietario);
-                auto.setNumeroDocPropietario(numeroDocPropietario);
-                auto.setPlaca(placa);
-                auto.setNombrePersonalizado(nombrePersonalizado);
+        //Validación de datos
+        nombrePropietario = editTextNombrePropietario.getText().toString().trim();
+        tipoDocPropietario = spinnerTipoDocPropietario.getSelectedItem().toString();
+        numeroDocPropietario = editTextNumeroDocPropietario.getText().toString().trim();
+        placa = editTextPlaca.getText().toString().trim();
+        nombrePersonalizado = editTextNombrePersonalizado.getText().toString().trim();
+        if((nombrePropietario==null)||(nombrePropietario.equals(""))){
+            editTextNombrePropietario.setError("Ingrese el nombre del propietario");
+            Log.e("SESSION", "Ingrese el nombre del propietario");
+        }else if((numeroDocPropietario==null)||(numeroDocPropietario.equals(""))){
+            editTextNumeroDocPropietario.setError("Ingrese el número de documento del propietario");
+            Log.e("SESSION", "Ingrese el número de documento del propietario");
+        }else if((placa==null)||(placa.equals(""))){
+            editTextPlaca.setError("Ingrese la placa del vehículo");
+            Log.e("SESSION", "Ingrese la placa del vehículo");
+        }else if((nombrePersonalizado==null)||(nombrePersonalizado.equals(""))){
+            editTextPlaca.setError("Ingrese el nombre personalizado del vehículo");
+            Log.e("SESSION", "Ingrese el nombre personalizado del vehículo");
+        }else if(placa.length()!=7) {
+            editTextPlaca.setError("Ingrese el número de la placa con el formato (XXX-XXX)");
+            Log.e("SESSION", "Ingrese el número de la placa con el formato (XXX-XXX)");
+        }else {
+            //Se construye un auto para el usuario
+            Auto auto = new Auto();
+            auto.setNombrePropietario(nombrePropietario);
+            auto.setTipoDocPropietario(tipoDocPropietario);
+            auto.setNumeroDocPropietario(numeroDocPropietario);
+            auto.setPlaca(placa);
+            auto.setNombrePersonalizado(nombrePersonalizado);
 
-                //Finalmente se escribe el auto en la base de datos para el usuario correspondiente.
-                //Primero se toma la instancia de la base de datos
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                //Se toma la key del usuario definida desde la actividad anterior
-                String usuarioKey = getIntent().getStringExtra("usuarioKey");
-                //Se toma la referencia de todos los usuarios
-                DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
-                //Se busca el usuario correspondiente dentro de todos los usuarios
-                DatabaseReference usuarioRef = usuariosRef.child(usuarioKey);
-                // Al usuario se le añade un "hijo" llamado autos y se le "empuja" un primer valor
-                usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE).push().setValue(auto);
+            //Finalmente se escribe el auto en la base de datos para el usuario correspondiente.
+            //Primero se toma la instancia de la base de datos
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            //Se toma la key del usuario definida desde la actividad anterior
+            String usuarioKey = getIntent().getStringExtra("usuarioKey");
+            //Se toma la referencia de todos los usuarios
+            DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
+            //Se busca el usuario correspondiente dentro de todos los usuarios
+            DatabaseReference usuarioRef = usuariosRef.child(usuarioKey);
+            // Al usuario se le añade un "hijo" llamado autos y se le "empuja" un primer valor
+            usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE).push().setValue(auto);
 
+            //Se establece que activity debe abrir el button
+            String origen = getIntent().getStringExtra("claseOrigen");
+            if(origen.equals("InformacionPersonalActivity")){
                 //Construcción del intent
                 Intent intent = new Intent(this, InformacionPagoActivity.class);
                 intent.putExtra("usuarioKey", getIntent().getStringExtra("usuarioKey"));
                 startActivity(intent);
+            }else if(origen.equals("MisAutosActivity")){
+                finish();
             }
-        }else if(origen.equals("MisAutosActivity")){
-            finish();
         }
     }
 }

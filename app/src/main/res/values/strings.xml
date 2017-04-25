@@ -18,4 +18,6 @@
     <string name="historial_item">Historial de pagos</string>
     <string name="pago_item">Métodos de pagos</string>
     <string name="acerca_de_nosotros_item">Acerca de nosotros</string>
+
+    <string name="hi">¡Hola!</string>
 </resources>
