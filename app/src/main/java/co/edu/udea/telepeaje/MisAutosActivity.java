@@ -1,7 +1,9 @@
 package co.edu.udea.telepeaje;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -78,9 +80,11 @@ public class MisAutosActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         //Referencia de todos los usuarios
         DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
-        //Referencia al usuario actual
-        String usuarioKey = getIntent().getStringExtra("usuarioKey");
-        DatabaseReference usuarioRef = usuariosRef.child(usuarioKey);
+        //Se carga la referencia al usuario actual mediante el SharedPreferences
+        //El archivo PreferenciasUsuario sólo sera accedido por esta aplicación
+        SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
+        String UID = misPreferencias.getString("UID", "");
+        DatabaseReference usuarioRef = usuariosRef.child(UID);
         //Referencia a todos los autos del usuario actual
         DatabaseReference autosRef = usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE);
         autosRef.addValueEventListener(new ValueEventListener() {

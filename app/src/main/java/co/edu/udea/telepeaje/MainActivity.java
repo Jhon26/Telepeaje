@@ -1,6 +1,8 @@
 package co.edu.udea.telepeaje;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("SESSION", "sesión iniciada con email: "+ user.getEmail());
                     editTextEmail.setText("");
                     editTextPass.setText("");
+                    //Se guarda el UID del usuario para que la aplicación sepa cuáles datos recuperar desde la base de datos
+                    //El guardado se hace archivo PreferenciasUsuario, el cual es accedido sólo por esta app
+                    SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = misPreferencias.edit();
+                    editor.putString("UID", user.getUid());
+                    editor.commit();
+
+                    //Se lanza la actividad para mostrar los autos del usuario logueado
                     Intent intent = new Intent(MainActivity.this, MisAutosActivity.class);
                     startActivity(intent);
                 }else{//Sesion cerrada

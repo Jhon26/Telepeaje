@@ -1,6 +1,8 @@
 package co.edu.udea.telepeaje;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -46,7 +48,7 @@ public class RegistroEmailActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user!=null){//Sesion iniciada
+                if(user!=null){//Usuario creado
                     Log.i("SESSION", "Usuaro creado con email: "+ user.getEmail());
 
                     //Creación del usuario e instauración de sus primeros datos
@@ -56,6 +58,13 @@ public class RegistroEmailActivity extends AppCompatActivity {
                     //Se limpian los campos de texto
                     editTextEmail.setText("");
                     editTextPass.setText("");
+
+                    //Se guarda el UID del usuario creado para que su key en la tabla sea el mismo UID de la autenticación.
+                    //Esto con el fin de cuando un usuario se loguee, se obtenga su UID y se sepa cual tabla pertenece a él
+                    SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = misPreferencias.edit();
+                    editor.putString("UID", user.getUid());
+                    editor.commit();
 
                     //Creación del intent y paso de datos
                     Intent intent = new Intent(RegistroEmailActivity.this, InformacionPersonalActivity.class);

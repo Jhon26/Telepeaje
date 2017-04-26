@@ -1,6 +1,8 @@
 package co.edu.udea.telepeaje;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -86,12 +88,14 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
             //Finalmente se escribe el auto en la base de datos para el usuario correspondiente.
             //Primero se toma la instancia de la base de datos
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            //Se toma la key del usuario definida desde la actividad anterior
-            String usuarioKey = getIntent().getStringExtra("usuarioKey");
+            //Se carga la referencia al usuario actual mediante el SharedPreferences
+            //El archivo PreferenciasUsuario sólo sera accedido por esta aplicación
+            SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
+            String UID = misPreferencias.getString("UID", "");
             //Se toma la referencia de todos los usuarios
             DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
             //Se busca el usuario correspondiente dentro de todos los usuarios
-            DatabaseReference usuarioRef = usuariosRef.child(usuarioKey);
+            DatabaseReference usuarioRef = usuariosRef.child(UID);
             // Al usuario se le añade un "hijo" llamado autos y se le "empuja" un primer valor
             usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE).push().setValue(auto);
 

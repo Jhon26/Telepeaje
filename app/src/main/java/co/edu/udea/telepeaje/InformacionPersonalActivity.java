@@ -1,6 +1,8 @@
 package co.edu.udea.telepeaje;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,12 +77,16 @@ public class InformacionPersonalActivity extends AppCompatActivity {
             //Finalmente se escribe el usuario en la base de datos.
             // Primero se toma la instancia de la BD
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            //Se coge la referencia al dato que queramos, en este caso el usuario que se insertará
-            final DatabaseReference usuarioRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE).push();
-            //Se le pone valor a esa referencia
+            //Se coge la referencia al nodo de todos los usuarios
+            final DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
+            //Se carga la referencia al usuario actual mediante el SharedPreferences
+            //El archivo PreferenciasUsuario sólo sera accedido por esta aplicación
+            SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
+            String UID = misPreferencias.getString("UID", "");
+            //Se le añade un hijo que tenga como key el UID asignado para este usuario
+            final DatabaseReference usuarioRef = usuariosRef.child(UID);
+            //Se le pone valor a esa referencia (a ese usuario)
             usuarioRef.setValue(usuario);
-            //Se toma la key de ese usuario insertado para posteriores implementaciones
-            String usuarioKey = usuarioRef.getKey();
 
             //claseOrigen informa a la siguiente actividad desde dónde fue lanzada
             String origen = this.getLocalClassName();
@@ -89,12 +95,10 @@ public class InformacionPersonalActivity extends AppCompatActivity {
             Intent intent = new Intent(this, InformacionVehiculoActivity.class);
 
             //Se pasan los datos necesarios mediante el intent
-            intent.putExtra("usuarioKey", usuarioKey);
             intent.putExtra("claseOrigen", origen);
 
             //Se inicia la actividad
             startActivity(intent);
         }
     }
-
 }
