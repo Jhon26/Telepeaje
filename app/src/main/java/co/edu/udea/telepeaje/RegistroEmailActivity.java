@@ -135,10 +135,4 @@ public class RegistroEmailActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
         }
     }
-
-    /*
-    public void openInformacionPersonal(View view){
-        Intent intent = new Intent(this, InformacionPersonalActivity.class);
-        startActivity(intent);
-    }*/
 }

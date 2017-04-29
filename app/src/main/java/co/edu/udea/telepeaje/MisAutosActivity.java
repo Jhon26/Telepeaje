@@ -201,6 +201,16 @@ public class MisAutosActivity extends AppCompatActivity {
         layout.addView(relativeLayout);
     }
 
+    //Al pulsar el botón de atrás, no se irá ni a la MainActivity ni a ninguna de las actividades de registro, sólo se abrirá
+    //la actividad HOME de android
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
     /*
     public void openConfiguracionPeajes(View view){
         Intent intent = new Intent(this, ConfiguracionPeajesActivity.class);

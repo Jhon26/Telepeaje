@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -110,5 +112,23 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    //Al cerrar está actividad, el registro queda incompleto, por lo tanto...
+    @Override
+    protected void onDestroy() {
+        //Se cierra la sesión creada
+        FirebaseAuth sesion = FirebaseAuth.getInstance();
+        sesion.signOut();
+        //Se borra el usuario creado
+        FirebaseUser usuario = sesion.getCurrentUser();
+        usuario.delete();
+        //Se borran sus respectivos datos
+        //No se obtiene el SharedPreferences para saber el id del usuario a borrar ya que se acaba de obtener el objeto usuario
+        //como tal y con este podemos saber su id
+        String UID = usuario.getUid();
+        Log.i("SESSION", "El UID del usuario a eliminar es "+UID);
+        FirebaseDatabase.getInstance().getReference().child(FirebaseReferences.USUARIOS_REFERENCE).child(UID).setValue(null);
+        super.onDestroy();
     }
 }
