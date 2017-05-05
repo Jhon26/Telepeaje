@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.ContactsContract;
+import android.support.annotation.StringDef;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -122,6 +123,7 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
             }
         });
         //El tag de eliminarPagoButton será el key del pago
+        eliminarPagoButton.setTag(pagoKey);
         eliminarPagoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +144,10 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
         cont++;
         if(cont==2){
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference usuarioRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
+            DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
+            SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
+            String UID = misPreferencias.getString("UID", "");
+            DatabaseReference usuarioRef = usuariosRef.child(UID);
             final DatabaseReference pagosRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE);
             pagosRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -151,8 +156,11 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
                     while(pagos.iterator().hasNext()){
                         DataSnapshot pagoDS = pagos.iterator().next();
                         if((pagoDS.getKey().equals(view.getTag()))||(pagoDS.getKey()==view.getTag())){
+                            //Toast.makeText(SeleccionarPagoActivity.this, "Entra", Toast.LENGTH_LONG).show();
                             DatabaseReference pago = pagoDS.getRef();
                             pago.removeValue();
+                            //Se reinicia el contador
+                            cont=0;
                         }
                     }
                 }
