@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
+import co.edu.udea.telepeaje.Objetos.Pago;
 import co.edu.udea.telepeaje.Objetos.UsuarioDB;
 
 public class MisAutosActivity extends AppCompatActivity {
@@ -44,6 +46,9 @@ public class MisAutosActivity extends AppCompatActivity {
 
     //Listener para la base de datos
     FirebaseAuth.AuthStateListener mAuthListener;
+
+    //Referencia al usuario actual en la base de datos
+    DatabaseReference usuarioRef;
 
 
     @Override
@@ -84,7 +89,7 @@ public class MisAutosActivity extends AppCompatActivity {
         //El archivo PreferenciasUsuario sólo sera accedido por esta aplicación
         SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
         String UID = misPreferencias.getString("UID", "");
-        DatabaseReference usuarioRef = usuariosRef.child(UID);
+        usuarioRef = usuariosRef.child(UID);
         //Referencia a todos los autos del usuario actual
         DatabaseReference autosRef = usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE);
         autosRef.addValueEventListener(new ValueEventListener() {
@@ -101,7 +106,7 @@ public class MisAutosActivity extends AppCompatActivity {
                     //Se le pasa su valor a un objeto de tipo auto
                     Auto auto = autoDS.getValue(Auto.class);
                     //Se ponen los atributos de ese objeto en su correspondiente cardView
-                    ponerAuto(auto);
+                    ponerAuto(auto, autoDS.getKey());
 
                     /*//Se imprimen los atributos del auto
                     Log.i("Auto", auto.getNombrePersonalizado().toString());*/
@@ -140,19 +145,21 @@ public class MisAutosActivity extends AppCompatActivity {
     public void openMiAuto(View view){
         Intent intent = new Intent(this, MiAutoActivity.class);
         //Segun el tag de la cardView, se extrae el texto de los elementos que esta contiene
-        TextView placaTextView = (TextView) findViewById(getResources().getIdentifier("editTextPlaca".concat(view.getTag().toString()), "id", getPackageName()));
+        TextView placaTextView = (TextView) view.findViewById(R.id.placa_text_view);
         String placa = placaTextView.getText().toString();
         intent.putExtra("editTextPlaca", placa);
-        TextView nombreAutoTextView = (TextView) findViewById(getResources().getIdentifier("nombreAuto".concat(view.getTag().toString()), "id", getPackageName()));
+        TextView nombreAutoTextView = (TextView) view.findViewById(R.id.nombre_auto_text_view);
         String nombreAuto = nombreAutoTextView.getText().toString();
         intent.putExtra("nombreAuto", nombreAuto);
-        TextView pagoTextView = (TextView) findViewById(getResources().getIdentifier("pago".concat(view.getTag().toString()), "id", getPackageName()));
+        TextView pagoTextView = (TextView) view.findViewById(R.id.pago_text_view);
         String pago = pagoTextView.getText().toString();
-        ConfiguracionAuto.setPago(pago);
-        //intent.putExtra("pago", pago);
-        TextView peajesTextView = (TextView) findViewById(getResources().getIdentifier("cantidadPeajes".concat(view.getTag().toString()), "id", getPackageName()));
+        intent.putExtra("pago", pago);
+        TextView peajesTextView = (TextView) view.findViewById(R.id.cant_peajes_text_view);
         String peajes = peajesTextView.getText().toString();
         intent.putExtra("peajes", peajes);
+        CardView autoCardView = (CardView) view.findViewById(R.id.auto_card_view);
+        String tagCardView = autoCardView.getTag().toString();
+        intent.putExtra("tagCardView", tagCardView);
 
         //Se pone vacía la actividad desde la cual se configuró el auto, ya que en esta actividad no lo estamos configurando
         ConfiguracionAuto.setActivity("");
@@ -186,19 +193,63 @@ public class MisAutosActivity extends AppCompatActivity {
     }
 
     @SuppressLint("InlinedApi")
-    private void ponerAuto(Auto auto){
-        LayoutInflater inflater = LayoutInflater.from(this);
-        int id = R.layout.layout_card_view_auto;
-        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(id, null, false);
-        TextView textViewNombreAuto = (TextView) relativeLayout.findViewById(R.id.nombre_auto_text_view);
-        TextView textViewCantPeajes = (TextView) relativeLayout.findViewById(R.id.cant_peajes_text_view);
-        TextView textViewPlaca = (TextView) relativeLayout.findViewById(R.id.placa_text_view);
-        TextView textViewPago = (TextView) relativeLayout.findViewById(R.id.pago_text_view);
-        textViewNombreAuto.setText(auto.getNombrePersonalizado().toString());
-        textViewCantPeajes.setText("0 peajes habilitados");
-        textViewPlaca.setText(auto.getPlaca().toString());
-        textViewPago.setText("VISA");
-        layout.addView(relativeLayout);
+    private void ponerAuto(final Auto auto, final String autoKey){
+        //Se coge el pago que está asociado al auto
+        //Referencia a todos los pagos del usuario actual
+        DatabaseReference pagosRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE);
+        pagosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Se limpian las cardView infladas
+                layout.removeAllViews();
+                //Se meten todos los pagos en un Iterable de tipo DataSnapshot
+                Iterable<DataSnapshot> pagos = dataSnapshot.getChildren();
+                //Se define el pago que se intenta buscar
+                Pago pago = null;
+                //Se recorre ese Iterable para buscar el pago asociado al auto
+                while(pagos.iterator().hasNext()){
+                    //Se coge uno de esos DataSnapshots (auto) que hay en el Iterable
+                    DataSnapshot pagoDS = pagos.iterator().next();
+                    //Se le pasa su valor a un objeto de tipo auto
+                    if((pagoDS.getKey()==auto.getIdPagoCorrespondiente())||(pagoDS.getKey().equals(auto.getIdPagoCorrespondiente()))){
+                        pago = pagoDS.getValue(Pago.class);
+                        //Se definen los elementos que van en el layout para cada auto
+                        LayoutInflater inflater = LayoutInflater.from(MisAutosActivity.this);
+                        int id = R.layout.layout_card_view_auto;
+                        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(id, null, false);
+                        CardView cardView = (CardView) relativeLayout.findViewById(R.id.auto_card_view);
+                        TextView textViewNombreAuto = (TextView) relativeLayout.findViewById(R.id.nombre_auto_text_view);
+                        TextView textViewCantPeajes = (TextView) relativeLayout.findViewById(R.id.cant_peajes_text_view);
+                        TextView textViewPlaca = (TextView) relativeLayout.findViewById(R.id.placa_text_view);
+                        TextView textViewPago = (TextView) relativeLayout.findViewById(R.id.pago_text_view);
+                        //Se configuran los elementos
+                        textViewNombreAuto.setText(auto.getNombrePersonalizado().toString());
+                        textViewCantPeajes.setText(+auto.getCantidadPeajesHabilitados()+""+" peajes habilitados");
+                        textViewPlaca.setText(auto.getPlaca().toString());
+                        //Se formatea el método de pago para que no se muestre completamente
+                        String numeroTarjeta = String.valueOf(pago.getNumeroTarjeta());
+                        char [] numeroTarjetaFormateada = new char[9];
+                        numeroTarjeta.getChars(12, 16, numeroTarjetaFormateada, 0);
+                        textViewPago.setText("xxxx "+String.valueOf(numeroTarjetaFormateada));
+                        //El tag de la cardView será el id del auto
+                        cardView.setTag(autoKey);
+                        cardView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                openMiAuto(v);
+                            }
+                        });
+                        layout.addView(relativeLayout);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //Al pulsar el botón de atrás, no se irá ni a la MainActivity ni a ninguna de las actividades de registro, sólo se abrirá

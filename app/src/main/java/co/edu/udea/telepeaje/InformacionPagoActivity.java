@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -101,10 +102,15 @@ public class InformacionPagoActivity extends AppCompatActivity {
             //Se busca el usuario correspondiente dentro de todos los usuarios
             DatabaseReference usuarioRef = usuariosRef.child(UID);
             // Al usuario se le añade un "hijo" llamado pagos y se le "empuja" un primer valor
-            usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE).push().setValue(pago);
+            DatabaseReference pagoRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE).push();
+            pagoRef.setValue(pago);
 
             //Construcción del intent
-            Intent intent = new Intent(this, MisAutosActivity.class);
+            Intent intent = new Intent(this, InformacionVehiculoActivity.class);
+            //claseOrigen informa a la siguiente actividad desde dónde fue lanzada
+            String origen = this.getLocalClassName();
+            //Se pasan los datos necesarios mediante el intent
+            intent.putExtra("claseOrigen", origen);
             startActivity(intent);
         }
     }

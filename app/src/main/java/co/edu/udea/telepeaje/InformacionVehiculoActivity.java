@@ -10,14 +10,17 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
+import co.edu.udea.telepeaje.Objetos.Pago;
 
 public class InformacionVehiculoActivity extends AppCompatActivity {
 
@@ -34,6 +37,8 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
     String numeroDocPropietario;
     String placa;
     String nombrePersonalizado;
+
+    String keyPago;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,55 +85,65 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
             Log.e("SESSION", "Ingrese el número de la placa con el formato (XXX-XXX)");
         }else {
             //Se construye un auto para el usuario
-            Auto auto = new Auto();
-            auto.setNombrePropietario(nombrePropietario);
-            auto.setTipoDocPropietario(tipoDocPropietario);
-            auto.setNumeroDocPropietario(numeroDocPropietario);
-            auto.setPlaca(placa);
-            auto.setNombrePersonalizado(nombrePersonalizado);
-
-            //Finalmente se escribe el auto en la base de datos para el usuario correspondiente.
+            final Auto auto = new Auto();
+            //Se busca el primer pago registrado en la base de datos para que sea el pago correspondiente de este auto
             //Primero se toma la instancia de la base de datos
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            //Se carga la referencia al usuario actual mediante el SharedPreferences
+            //Se lee la referencia al usuario actual mediante el SharedPreferences
             //El archivo PreferenciasUsuario sólo sera accedido por esta aplicación
             SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
             String UID = misPreferencias.getString("UID", "");
             //Se toma la referencia de todos los usuarios
             DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
             //Se busca el usuario correspondiente dentro de todos los usuarios
-            DatabaseReference usuarioRef = usuariosRef.child(UID);
-            // Al usuario se le añade un "hijo" llamado autos y se le "empuja" un primer valor
-            usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE).push().setValue(auto);
+            final DatabaseReference usuarioRef = usuariosRef.child(UID);
+            //Se busca el primer pago de ese usuario
+            DatabaseReference pagosRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE);
+            pagosRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    //Se meten todos los autos en un Iterable de tipo DataSnapshot
+                    Iterable<DataSnapshot> pagos = dataSnapshot.getChildren();
+                    while(pagos.iterator().hasNext()) {
+                        //Se lee el primer elemento de ese iterable
+                        DataSnapshot pagoDS = pagos.iterator().next();
+                        //Se obtiene la key de ese primer pago
+                        keyPago = pagoDS.getKey();
+                        //Log.i("AUTO", "La key del pago es "+keyPago);
 
-            //Se establece que activity debe abrir el button
+                        //Se le ponen los valores al auto
+                        auto.setNombrePropietario(nombrePropietario);
+                        auto.setTipoDocPropietario(tipoDocPropietario);
+                        auto.setNumeroDocPropietario(numeroDocPropietario);
+                        auto.setPlaca(placa);
+                        auto.setNombrePersonalizado(nombrePersonalizado);
+                        auto.setCantidadPeajesHabilitados(0);
+                        //Se le asocia ese pago al auto mediante su key
+                        auto.setIdPagoCorrespondiente(keyPago);
+                        //Finalmente se escribe el auto en la base de datos para el usuario correspondiente.
+
+                        // Al usuario se le añade un "hijo" llamado autos y se le "empuja" un primer valor
+                        usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE).push().setValue(auto);
+                        return;
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            //Se establece cuál activity debe abrir el button
             String origen = getIntent().getStringExtra("claseOrigen");
-            if(origen.equals("InformacionPersonalActivity")){
+            if(origen.equals("InformacionPagoActivity")){
                 //Construcción del intent
-                Intent intent = new Intent(this, InformacionPagoActivity.class);
+                Intent intent = new Intent(this, MisAutosActivity.class);
                 intent.putExtra("usuarioKey", getIntent().getStringExtra("usuarioKey"));
                 startActivity(intent);
             }else if(origen.equals("MisAutosActivity")){
                 finish();
             }
         }
-    }
-
-    //Al cerrar está actividad, el registro queda incompleto, por lo tanto...
-    @Override
-    protected void onDestroy() {
-        //Se cierra la sesión creada
-        FirebaseAuth sesion = FirebaseAuth.getInstance();
-        sesion.signOut();
-        //Se borra el usuario creado
-        FirebaseUser usuario = sesion.getCurrentUser();
-        usuario.delete();
-        //Se borran sus respectivos datos
-        //No se obtiene el SharedPreferences para saber el id del usuario a borrar ya que se acaba de obtener el objeto usuario
-        //como tal y con este podemos saber su id
-        String UID = usuario.getUid();
-        Log.i("SESSION", "El UID del usuario a eliminar es "+UID);
-        FirebaseDatabase.getInstance().getReference().child(FirebaseReferences.USUARIOS_REFERENCE).child(UID).setValue(null);
-        super.onDestroy();
     }
 }

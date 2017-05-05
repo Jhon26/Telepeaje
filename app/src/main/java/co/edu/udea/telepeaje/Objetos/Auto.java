@@ -10,16 +10,37 @@ public class Auto {
     String numeroDocPropietario;
     String placa;
     String nombrePersonalizado;
+    int cantidadPeajesHabilitados;
+    String idPagoCorrespondiente;
 
     public Auto() {
     }
 
-    public Auto(String nombrePropietario, String tipoDocPropietario, String numeroDocPropietario, String placa, String nombrePersonalizado) {
+    public Auto(String nombrePropietario, String tipoDocPropietario, String numeroDocPropietario, String placa,
+                String nombrePersonalizado, int cantidadPeajesHabilitados, String idPagoCorrespondiente) {
         this.nombrePropietario = nombrePropietario;
         this.tipoDocPropietario = tipoDocPropietario;
         this.numeroDocPropietario = numeroDocPropietario;
         this.placa = placa;
         this.nombrePersonalizado = nombrePersonalizado;
+        this.cantidadPeajesHabilitados = cantidadPeajesHabilitados;
+        this.idPagoCorrespondiente = idPagoCorrespondiente;
+    }
+
+    public String getIdPagoCorrespondiente() {
+        return idPagoCorrespondiente;
+    }
+
+    public void setIdPagoCorrespondiente(String idPagoCorrespondiente) {
+        this.idPagoCorrespondiente = idPagoCorrespondiente;
+    }
+
+    public int getCantidadPeajesHabilitados() {
+        return cantidadPeajesHabilitados;
+    }
+
+    public void setCantidadPeajesHabilitados(int cantidadPeajesHabilitados) {
+        this.cantidadPeajesHabilitados = cantidadPeajesHabilitados;
     }
 
     public String getNombrePropietario() {

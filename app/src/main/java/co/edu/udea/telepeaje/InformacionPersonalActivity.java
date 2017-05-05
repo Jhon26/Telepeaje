@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -89,14 +90,8 @@ public class InformacionPersonalActivity extends AppCompatActivity {
             //Se le pone valor a esa referencia (a ese usuario)
             usuarioRef.setValue(usuario);
 
-            //claseOrigen informa a la siguiente actividad desde dónde fue lanzada
-            String origen = this.getLocalClassName();
-
             //Construcción del intent
-            Intent intent = new Intent(this, InformacionVehiculoActivity.class);
-
-            //Se pasan los datos necesarios mediante el intent
-            intent.putExtra("claseOrigen", origen);
+            Intent intent = new Intent(this, InformacionPagoActivity.class);
 
             //Se inicia la actividad
             startActivity(intent);
@@ -107,7 +102,15 @@ public class InformacionPersonalActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //Se borran los datos del usuario creado
+        SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
+        String UID = misPreferencias.getString("UID", "");//Con usuario.getUID() tampoco funciona
+        final DatabaseReference borrar = FirebaseDatabase.getInstance().getReference(FirebaseReferences.USUARIOS_REFERENCE).child(UID);
+        Log.i("SESSION", "El UID del usuario a eliminar es "+borrar.toString());
+        borrar.removeValue();
         //Se borra el usuario creado
-        FirebaseAuth.getInstance().getCurrentUser().delete();
+        FirebaseAuth sesion = FirebaseAuth.getInstance();
+        FirebaseUser usuario = sesion.getCurrentUser();
+        usuario.delete();
     }
 }
