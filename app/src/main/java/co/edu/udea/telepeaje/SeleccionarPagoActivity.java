@@ -2,6 +2,7 @@ package co.edu.udea.telepeaje;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -112,5 +113,12 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
             }
         });
         layout.addView(linearLayout);
+    }
+
+    public void agregarPago(View view){
+        Intent intent = new Intent(this, InformacionPagoActivity.class);
+        String origen = this.getLocalClassName();
+        intent.putExtra("claseOrigen", origen);
+        startActivity(intent);
     }
 }

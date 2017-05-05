@@ -92,6 +92,8 @@ public class InformacionPersonalActivity extends AppCompatActivity {
 
             //Construcción del intent
             Intent intent = new Intent(this, InformacionPagoActivity.class);
+            String origen = this.getLocalClassName();
+            intent.putExtra("claseOrigen", origen);
 
             //Se inicia la actividad
             startActivity(intent);

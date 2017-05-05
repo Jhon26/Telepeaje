@@ -70,7 +70,7 @@
         android:layout_toEndOf="@+id/cvv_edit_text"
         android:layout_toRightOf="@+id/cvv_edit_text"
         android:clickable="true"
-        android:onClick="openMisAutos"
+        android:onClick="siguienteActivity"
         app:backgroundTint="@android:color/black"
         app:elevation="24dp"
         app:fabSize="mini"

@@ -24,13 +24,13 @@
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/agregar_auto_button"
+        android:id="@+id/agregar_pago_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:clickable="true"
-        android:onClick="agregarAuto"
+        android:onClick="agregarPago"
         app:backgroundTint="@android:color/black"
         app:elevation="6dp"
         app:fabSize="mini"

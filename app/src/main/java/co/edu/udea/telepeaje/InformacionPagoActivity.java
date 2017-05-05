@@ -65,7 +65,7 @@ public class InformacionPagoActivity extends AppCompatActivity {
         spinnerAnoVencimiento.setAdapter(spinnerAdapterAno);
     }
 
-    public void openMisAutos(View view){
+    public void siguienteActivity(View view){
         //Validación de datos
         //tipoPago = spinnerTipoPago.getSelectedItem().toString();
         numeroTarjeta = Long.parseLong(editTextNumeroTarjeta.getText().toString().trim());
@@ -105,13 +105,15 @@ public class InformacionPagoActivity extends AppCompatActivity {
             DatabaseReference pagoRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE).push();
             pagoRef.setValue(pago);
 
-            //Construcción del intent
-            Intent intent = new Intent(this, InformacionVehiculoActivity.class);
-            //claseOrigen informa a la siguiente actividad desde dónde fue lanzada
-            String origen = this.getLocalClassName();
-            //Se pasan los datos necesarios mediante el intent
-            intent.putExtra("claseOrigen", origen);
-            startActivity(intent);
+            //Se establece cuál activity debe abrir el button
+            String origen = getIntent().getStringExtra("claseOrigen");
+            if(origen.equals("InformacionPersonalActivity")){
+                //Construcción del intent
+                Intent intent = new Intent(this, InformacionVehiculoActivity.class);
+                startActivity(intent);
+            }else if(origen.equals("SeleccionarPagoActivity")){
+                finish();
+            }
         }
     }
 }
