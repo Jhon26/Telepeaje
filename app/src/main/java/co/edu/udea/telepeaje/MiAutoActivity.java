@@ -42,7 +42,7 @@ public class MiAutoActivity extends AppCompatActivity {
         //Se obtienen los componentes de la actividad actual
         final TextView propietarioMiAutoTextView = (TextView) findViewById(R.id.propietarioMiAuto);
         final TextView documentoPropietarioMiAutoTextView = (TextView) findViewById(R.id.documentoPropietarioMiAuto);
-        final Button pagoButton= (Button) findViewById(R.id.pagoMiAuto);
+        final Button pagoButton = (Button) findViewById(R.id.pagoMiAuto);
         final Button peajesButton= (Button) findViewById(R.id.peajesMiAuto);
         final TextView placaTextView = (TextView) findViewById(R.id.placaMiAuto);
 
@@ -62,6 +62,7 @@ public class MiAutoActivity extends AppCompatActivity {
                         propietarioMiAutoTextView.setText(propietarioMiAutoTextView.getText().toString().concat(auto.getNombrePropietario()));
                         documentoPropietarioMiAutoTextView.setText(documentoPropietarioMiAutoTextView.getText().toString().concat(auto.getTipoDocPropietario()+" "+auto.getNumeroDocPropietario()));
                         pagoButton.setText(pago);
+                        ConfiguracionAuto.setPago(pago);
                         peajesButton.setText(peajes);
                         placaTextView.setText(placaTextView.getText().toString().concat(placa));
                         return;
@@ -83,8 +84,9 @@ public class MiAutoActivity extends AppCompatActivity {
         String pago = ConfiguracionAuto.getPago();
         Button pagoButton= (Button) findViewById(R.id.pagoMiAuto);
         pagoButton.setText(pago);
-        if(!ConfiguracionAuto.getActivity().equals(""))
-        Toast.makeText(this, "Método de pago cambiado", Toast.LENGTH_SHORT).show();
+        if(!ConfiguracionAuto.getActivity().equals("")){
+            Toast.makeText(this, "Método de pago cambiado", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void openSeleccionarPago(View view){

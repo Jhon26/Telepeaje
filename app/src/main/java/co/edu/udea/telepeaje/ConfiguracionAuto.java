@@ -6,7 +6,7 @@ package co.edu.udea.telepeaje;
 
 public class ConfiguracionAuto {
     public static String pago;//Expresa el pago seleccionado para un auto
-    public static String activity;//Indica la actividad desde la cual se configuró  algún parámetro del auto
+    public static String activity="";//Indica la actividad desde la cual se configuró  algún parámetro del auto
 
     public static String getActivity() {
         return activity;

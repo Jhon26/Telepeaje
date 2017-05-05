@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,10 +37,16 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
     //Referencia al usuario actual en la base de datos
     DatabaseReference usuarioRef;
 
+    //Contador para la funcionalidad de eliminar un pago
+    int cont;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccionar_pago);
+
+        //Inicialización del contador para la funcionalidad de eliminar pago
+        cont = 0;
 
         //Referencia a elementos de la interfaz
         buttonAgregarPago = (FloatingActionButton) findViewById(R.id.agregar_auto_button);
@@ -70,7 +78,7 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
                     //Se le pasa su valor a un objeto de tipo pago
                     Pago pago = pagoDS.getValue(Pago.class);
                     //Se ponen los atributos de ese objeto en su correspondiente layout
-                    ponerPago(pago);
+                    ponerPago(pago, pagoDS.getKey());
                 }
             }
 
@@ -92,12 +100,13 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
     }
 
     @SuppressLint("InlinedApi")
-    private void ponerPago(final Pago pago) {
+    private void ponerPago(final Pago pago, String pagoKey) {
         //Se definen los elementos que van en el layout para cada auto
         LayoutInflater inflater = LayoutInflater.from(SeleccionarPagoActivity.this);
         int id = R.layout.layout_pago;
         LinearLayout linearLayout = (LinearLayout) inflater.inflate(id, null, false);
         Button pagoButton = (Button) linearLayout.findViewById(R.id.pago_button);
+        Button eliminarPagoButton = (Button) linearLayout.findViewById(R.id.eliminar_pago_button);
         //Se configuran los elementos
         //Se formatea el método de pago para que no se muestre completamente
         String numeroTarjeta = String.valueOf(pago.getNumeroTarjeta());
@@ -112,6 +121,13 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
                 seleccionarPago(v);
             }
         });
+        //El tag de eliminarPagoButton será el key del pago
+        eliminarPagoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eliminarPago(v);
+            }
+        });
         layout.addView(linearLayout);
     }
 
@@ -120,5 +136,40 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
         String origen = this.getLocalClassName();
         intent.putExtra("claseOrigen", origen);
         startActivity(intent);
+    }
+
+    public void eliminarPago(final View view){
+        cont++;
+        if(cont==2){
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference usuarioRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
+            final DatabaseReference pagosRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE);
+            pagosRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Iterable<DataSnapshot> pagos = dataSnapshot.getChildren();
+                    while(pagos.iterator().hasNext()){
+                        DataSnapshot pagoDS = pagos.iterator().next();
+                        if((pagoDS.getKey().equals(view.getTag()))||(pagoDS.getKey()==view.getTag())){
+                            DatabaseReference pago = pagoDS.getRef();
+                            pago.removeValue();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }else if(cont==1){
+            Toast.makeText(this, "Pulse otra vez para eliminar el pago", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ConfiguracionAuto.setActivity("");
     }
 }
