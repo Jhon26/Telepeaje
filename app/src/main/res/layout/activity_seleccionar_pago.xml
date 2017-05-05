@@ -1,126 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-autos"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.edu.udea.telepeaje.SeleccionarPagoActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Button
-        android:id="@+id/button14"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="23dp"
-        android:layout_marginStart="23dp"
-        android:background="@drawable/ic_action_edit_payment"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:layout_alignBaseline="@+id/button3"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_toRightOf="@+id/button3"
-        android:layout_toEndOf="@+id/button3"/>
-
-    <Button
-        android:id="@+id/button13"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button5"
-        android:layout_alignBottom="@+id/button5"
-        android:layout_alignLeft="@+id/button14"
-        android:layout_alignStart="@+id/button14"
-        android:background="@drawable/ic_action_edit_payment"
-        android:backgroundTint="@android:color/black"
-        android:onClick="seleccionarPago"/>
-
-    <Button
-        android:id="@+id/button12"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button13"
-        android:layout_alignBottom="@+id/button13"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
-        android:layout_toEndOf="@+id/button13"
-        android:layout_toRightOf="@+id/button13"
-        android:background="@android:drawable/ic_delete"
-        android:backgroundTint="@color/common_google_signin_btn_text_light_default" />
-
-    <Button
-        android:id="@+id/button11"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button4"
-        android:layout_alignBottom="@+id/button4"
-        android:layout_alignLeft="@+id/button13"
-        android:layout_alignStart="@+id/button13"
-        android:background="@drawable/ic_action_edit_payment"
-        android:backgroundTint="@android:color/black" />
-
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button11"
-        android:layout_alignBottom="@+id/button11"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_toEndOf="@+id/button11"
-        android:layout_toRightOf="@+id/button11"
-        android:background="@android:drawable/ic_delete"
-        android:backgroundTint="@color/common_google_signin_btn_text_light_default" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="200dp"
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="14dp"
-        android:backgroundTint="@android:color/black"
-        android:tag="VISA-9171"
-        android:text="VISA-9171"
-        android:textColor="@android:color/white"
-        android:onClick="seleccionarPago"/>
+        android:fillViewport="true"
+        android:scrollbarStyle="outsideInset" >
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/button3"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="14dp"
-        android:backgroundTint="@android:color/black"
-        android:tag="MASTERCARD-0824"
-        android:text="MASTERCARD-0824"
-        android:textColor="@android:color/white"
-        android:onClick="seleccionarPago"/>
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/button4"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="19dp"
-        android:backgroundTint="@android:color/black"
-        android:tag="PAYPAL"
-        android:text="PAYPAL"
-        android:textColor="@android:color/white"
-        android:onClick="seleccionarPago"/>
+        </LinearLayout>
+    </ScrollView>
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="50dp"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/agregar_auto_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button14"
-        android:layout_alignBottom="@+id/button14"
-        android:layout_alignLeft="@+id/button12"
-        android:layout_alignStart="@+id/button12"
-        android:background="@android:drawable/ic_delete"
-        android:backgroundTint="@color/common_google_signin_btn_text_light_default" />
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:clickable="true"
+        android:onClick="agregarAuto"
+        app:backgroundTint="@android:color/black"
+        app:elevation="6dp"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_action_addbig2"
+        android:layout_alignBottom="@+id/log_out_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="450dp"/>
+
+
 </RelativeLayout>
