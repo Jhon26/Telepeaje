@@ -143,24 +143,49 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
     public void eliminarPago(final View view){
         cont++;
         if(cont==2){
+            //Pimero se recorren todos los autos para verificar que el medio de pago a eliminar no está asociado a ninguno de ellos
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
             SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
             String UID = misPreferencias.getString("UID", "");
-            DatabaseReference usuarioRef = usuariosRef.child(UID);
-            final DatabaseReference pagosRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE);
-            pagosRef.addValueEventListener(new ValueEventListener() {
+            final DatabaseReference usuarioRef = usuariosRef.child(UID);
+            DatabaseReference autosRef = usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE);
+            autosRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Iterable<DataSnapshot> pagos = dataSnapshot.getChildren();
-                    while(pagos.iterator().hasNext()){
-                        DataSnapshot pagoDS = pagos.iterator().next();
-                        if((pagoDS.getKey().equals(view.getTag()))||(pagoDS.getKey()==view.getTag())){
-                            //Toast.makeText(SeleccionarPagoActivity.this, "Entra", Toast.LENGTH_LONG).show();
-                            DatabaseReference pago = pagoDS.getRef();
-                            pago.removeValue();
-                            //Se reinicia el contador
-                            cont=0;
+                    Iterable<DataSnapshot> autos = dataSnapshot.getChildren();
+                    while(autos.iterator().hasNext()){
+                        DataSnapshot autoDS = autos.iterator().next();
+                        Auto auto = autoDS.getValue(Auto.class);
+                        if((auto.getIdPagoCorrespondiente().equals(view.getTag()))||
+                                (auto.getIdPagoCorrespondiente()==view.getTag())){
+                            Toast.makeText(SeleccionarPagoActivity.this, "No se puede eliminar este pago " +
+                                    "porque se encuentra asociado a un auto", Toast.LENGTH_LONG).show();
+                            return;
+                        }else{
+                            //Si ningun auto está asociado a este pago se procede a eliminar el pago
+                            final DatabaseReference pagosRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE);
+                            pagosRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Iterable<DataSnapshot> pagos = dataSnapshot.getChildren();
+                                    while(pagos.iterator().hasNext()){
+                                        DataSnapshot pagoDS = pagos.iterator().next();
+                                        if((pagoDS.getKey().equals(view.getTag()))||(pagoDS.getKey()==view.getTag())){
+                                            //Toast.makeText(SeleccionarPagoActivity.this, "Entra", Toast.LENGTH_LONG).show();
+                                            DatabaseReference pago = pagoDS.getRef();
+                                            pago.removeValue();
+                                            //Se reinicia el contador
+                                            cont=0;
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                         }
                     }
                 }
