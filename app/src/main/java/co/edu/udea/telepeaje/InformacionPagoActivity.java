@@ -110,6 +110,8 @@ public class InformacionPagoActivity extends AppCompatActivity {
             if(origen.equals("InformacionPersonalActivity")){
                 //Construcción del intent
                 Intent intent = new Intent(this, InformacionVehiculoActivity.class);
+                String claseOrigen = this.getLocalClassName();
+                intent.putExtra("claseOrigen", claseOrigen);
                 startActivity(intent);
             }else if(origen.equals("SeleccionarPagoActivity")){
                 finish();

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +18,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
 import co.edu.udea.telepeaje.Objetos.Usuario;
 
 public class MiAutoActivity extends AppCompatActivity {
+
+    //Auto del cual se extrae la información para ponerla en esta activity
+    Auto auto;
+    //Referencia de ese auto en la base de datos
+    DataSnapshot autoDS;
+    //referencia a los usuarios de la base de datos
+    DatabaseReference usuariosRef;
+    //UID del usuario actual
+    String UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,27 +55,34 @@ public class MiAutoActivity extends AppCompatActivity {
         final TextView propietarioMiAutoTextView = (TextView) findViewById(R.id.propietarioMiAuto);
         final TextView documentoPropietarioMiAutoTextView = (TextView) findViewById(R.id.documentoPropietarioMiAuto);
         final Button pagoButton = (Button) findViewById(R.id.pagoMiAuto);
-        final Button peajesButton= (Button) findViewById(R.id.peajesMiAuto);
+        final Switch peajesHabilitadosSwitch= (Switch) findViewById(R.id.peajesHabilitadosMiAuto);
         final TextView placaTextView = (TextView) findViewById(R.id.placaMiAuto);
 
         //Se les pone valor a los componentes
         SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
-        String UID = misPreferencias.getString("UID", "");
-        DatabaseReference autosRef = FirebaseDatabase.getInstance().getReference(FirebaseReferences.USUARIOS_REFERENCE).child(UID).child(FirebaseReferences.AUTOS_REFERENCE);
+        UID = misPreferencias.getString("UID", "");
+        usuariosRef = FirebaseDatabase.getInstance().getReference(FirebaseReferences.USUARIOS_REFERENCE);
+        DatabaseReference autosRef = usuariosRef.child(UID).child(FirebaseReferences.AUTOS_REFERENCE);
         //Toast.makeText(MiAutoActivity.this, "Entra", Toast.LENGTH_LONG).show();
         autosRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> autos = dataSnapshot.getChildren();
                 while(autos.iterator().hasNext()){
-                    DataSnapshot autoDS = autos.iterator().next();
+                    autoDS = autos.iterator().next();
                     if((autoDS.getKey().equals(autoKey))||(autoDS.getKey()==autoKey)){
-                        Auto auto = autoDS.getValue(Auto.class);
+                        auto = autoDS.getValue(Auto.class);
                         propietarioMiAutoTextView.setText(propietarioMiAutoTextView.getText().toString().concat(auto.getNombrePropietario()));
                         documentoPropietarioMiAutoTextView.setText(documentoPropietarioMiAutoTextView.getText().toString().concat(auto.getTipoDocPropietario()+" "+auto.getNumeroDocPropietario()));
                         pagoButton.setText(pago);
                         ConfiguracionAuto.setPago(pago);
-                        peajesButton.setText(peajes);
+                        if(auto.getPeajesHabilitados()){
+                            peajesHabilitadosSwitch.setText("Todos los peajes estan habilitados");
+                            peajesHabilitadosSwitch.setChecked(true);
+                        }else{
+                            peajesHabilitadosSwitch.setText("Todos los peajes estan deshabilitados");
+                            peajesHabilitadosSwitch.setChecked(false);
+                        }
                         placaTextView.setText(placaTextView.getText().toString().concat(placa));
                         return;
                     }
@@ -95,8 +114,22 @@ public class MiAutoActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openSeleccionarPeajes(View view){
-        Intent intent = new Intent(this, SeleccionarPeajesActivity.class);
-        startActivity(intent);
+    public void cambiarEstadoPeajesHabilitados(View view){
+        Switch peajesHabilitadosSwitch= (Switch) findViewById(R.id.peajesHabilitadosMiAuto);
+        //Se actualiza el campo peajesHabilitados del auto consultado
+        //Toast.makeText(this, "Entra", Toast.LENGTH_SHORT).show();
+        if(auto.getPeajesHabilitados()){
+            auto.setPeajesHabilitados(false);
+            peajesHabilitadosSwitch.setText("Todos los peajes estan deshabilitados");
+        }else{
+            auto.setPeajesHabilitados(true);
+            peajesHabilitadosSwitch.setText("Todos los peajes estan habilitados");
+        }
+        Map<String, Object> autoMap = auto.toMap();
+        Map<String, Object> autoActualizacion = new HashMap<>();
+        String ruta = "/"+UID+"/"+FirebaseReferences.AUTOS_REFERENCE+"/"+autoDS.getKey();
+        autoActualizacion.put(ruta, autoMap);
+        usuariosRef.updateChildren(autoActualizacion);
     }
+
 }

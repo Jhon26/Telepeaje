@@ -121,7 +121,7 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
                         String ruta = "/"+UID+"/"+FirebaseReferences.AUTOS_REFERENCE+"/"+autoKey;
                         autoActualizacion.put(ruta, autoMap);
                         usuariosRef.updateChildren(autoActualizacion);
-                        Toast.makeText(SeleccionarPagoActivity.this, "Entra", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(SeleccionarPagoActivity.this, "Entra", Toast.LENGTH_LONG).show();
                         return;
                     }
                 }
@@ -192,7 +192,7 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
             String UID = misPreferencias.getString("UID", "");
             final DatabaseReference usuarioRef = usuariosRef.child(UID);
             DatabaseReference autosRef = usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE);
-            autosRef.addValueEventListener(new ValueEventListener() {
+            autosRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterable<DataSnapshot> autos = dataSnapshot.getChildren();
@@ -237,8 +237,9 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
 
                 }
             });
+            cont=0;
         }else if(cont==1){
-            Toast.makeText(this, "Pulse otra vez para eliminar el pago", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Pulse otra vez para eliminar el pago", Toast.LENGTH_SHORT).show();
         }
     }
 

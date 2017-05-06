@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
 import co.edu.udea.telepeaje.Objetos.Pago;
-import co.edu.udea.telepeaje.Objetos.UsuarioDB;
 
 public class MisAutosActivity extends AppCompatActivity {
 
@@ -154,7 +152,7 @@ public class MisAutosActivity extends AppCompatActivity {
         TextView pagoTextView = (TextView) view.findViewById(R.id.pago_text_view);
         String pago = pagoTextView.getText().toString();
         intent.putExtra("pago", pago);
-        TextView peajesTextView = (TextView) view.findViewById(R.id.cant_peajes_text_view);
+        TextView peajesTextView = (TextView) view.findViewById(R.id.peajes_habilitados_text_view);
         String peajes = peajesTextView.getText().toString();
         intent.putExtra("peajes", peajes);
         CardView autoCardView = (CardView) view.findViewById(R.id.auto_card_view);
@@ -219,12 +217,16 @@ public class MisAutosActivity extends AppCompatActivity {
                         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(id, null, false);
                         CardView cardView = (CardView) relativeLayout.findViewById(R.id.auto_card_view);
                         TextView textViewNombreAuto = (TextView) relativeLayout.findViewById(R.id.nombre_auto_text_view);
-                        TextView textViewCantPeajes = (TextView) relativeLayout.findViewById(R.id.cant_peajes_text_view);
+                        TextView textViewPeajesHabilitados = (TextView) relativeLayout.findViewById(R.id.peajes_habilitados_text_view);
                         TextView textViewPlaca = (TextView) relativeLayout.findViewById(R.id.placa_text_view);
                         TextView textViewPago = (TextView) relativeLayout.findViewById(R.id.pago_text_view);
                         //Se configuran los elementos
                         textViewNombreAuto.setText(auto.getNombrePersonalizado().toString());
-                        textViewCantPeajes.setText(+auto.getCantidadPeajesHabilitados()+""+" peajes habilitados");
+                        if(auto.getPeajesHabilitados()){
+                            textViewPeajesHabilitados.setText("Todos los peajes estan habilitados");
+                        }else{
+                            textViewPeajesHabilitados.setText("Todos los peajes estan deshabilitados");
+                        }
                         textViewPlaca.setText(auto.getPlaca().toString());
                         //Se formatea el método de pago para que no se muestre completamente
                         String numeroTarjeta = String.valueOf(pago.getNumeroTarjeta());

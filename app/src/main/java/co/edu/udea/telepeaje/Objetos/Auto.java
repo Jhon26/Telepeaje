@@ -13,20 +13,21 @@ public class Auto {
     String numeroDocPropietario;
     String placa;
     String nombrePersonalizado;
-    int cantidadPeajesHabilitados;
+    boolean peajesHabilitados;
     String idPagoCorrespondiente;
 
     public Auto() {
     }
 
     public Auto(String nombrePropietario, String tipoDocPropietario, String numeroDocPropietario, String placa,
-                String nombrePersonalizado, int cantidadPeajesHabilitados, String idPagoCorrespondiente) {
+                String nombrePersonalizado, boolean peajesHabilitados, String idPagoCorrespondiente) {
         this.nombrePropietario = nombrePropietario;
         this.tipoDocPropietario = tipoDocPropietario;
         this.numeroDocPropietario = numeroDocPropietario;
         this.placa = placa;
         this.nombrePersonalizado = nombrePersonalizado;
-        this.cantidadPeajesHabilitados = cantidadPeajesHabilitados;
+        //this.cantidadPeajesHabilitados = cantidadPeajesHabilitados;
+        this.peajesHabilitados = peajesHabilitados;
         this.idPagoCorrespondiente = idPagoCorrespondiente;
     }
 
@@ -38,12 +39,12 @@ public class Auto {
         this.idPagoCorrespondiente = idPagoCorrespondiente;
     }
 
-    public int getCantidadPeajesHabilitados() {
-        return cantidadPeajesHabilitados;
+    public boolean getPeajesHabilitados() {
+        return peajesHabilitados;
     }
 
-    public void setCantidadPeajesHabilitados(int cantidadPeajesHabilitados) {
-        this.cantidadPeajesHabilitados = cantidadPeajesHabilitados;
+    public void setPeajesHabilitados(boolean cantidadPeajesHabilitados) {
+        this.peajesHabilitados = cantidadPeajesHabilitados;
     }
 
     public String getNombrePropietario() {
@@ -94,7 +95,7 @@ public class Auto {
         result.put("numeroDocPropietario", numeroDocPropietario);
         result.put("placa", placa);
         result.put("nombrePersonalizado", nombrePersonalizado);
-        result.put("cantidadPeajesHabilitados", cantidadPeajesHabilitados);
+        result.put("peajesHabilitados", peajesHabilitados);
         result.put("idPagoCorrespondiente", idPagoCorrespondiente);
         return result;
     }

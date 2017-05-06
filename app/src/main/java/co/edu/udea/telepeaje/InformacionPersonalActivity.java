@@ -100,6 +100,7 @@ public class InformacionPersonalActivity extends AppCompatActivity {
         }
     }
 
+    /*
     //Al cerrar está actividad, el registro queda incompleto, por lo tanto...
     @Override
     protected void onDestroy() {
@@ -115,4 +116,5 @@ public class InformacionPersonalActivity extends AppCompatActivity {
         FirebaseUser usuario = sesion.getCurrentUser();
         usuario.delete();
     }
+    */
 }

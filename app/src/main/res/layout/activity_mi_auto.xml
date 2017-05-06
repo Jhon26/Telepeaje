@@ -40,13 +40,23 @@
         android:id="@+id/pagoMiAuto"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/placaMiAuto"
-        android:layout_centerHorizontal="true"
         android:backgroundTint="@android:color/black"
         android:textColor="@android:color/white"
-        android:onClick="openSeleccionarPago"/>
+        android:onClick="openSeleccionarPago"
+        android:layout_below="@+id/placaMiAuto"
+        android:layout_centerHorizontal="true" />
 
-    <Button
+    <Switch
+        android:id="@+id/peajesHabilitadosMiAuto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pagoMiAuto"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:checked="false"
+        android:onClick="cambiarEstadoPeajesHabilitados"/>
+
+    <!--<Button
         android:id="@+id/peajesMiAuto"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -55,6 +65,7 @@
         android:onClick="openSeleccionarPeajes"
         android:layout_below="@+id/pagoMiAuto"
         android:layout_alignLeft="@+id/pagoMiAuto"
-        android:layout_alignStart="@+id/pagoMiAuto" />
+        android:layout_alignStart="@+id/pagoMiAuto" />-->
+
 
 </RelativeLayout>

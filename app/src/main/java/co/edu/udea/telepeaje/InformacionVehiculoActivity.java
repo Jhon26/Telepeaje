@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +19,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
-import co.edu.udea.telepeaje.Objetos.Pago;
 
 public class InformacionVehiculoActivity extends AppCompatActivity {
 
@@ -99,7 +97,7 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
             final DatabaseReference usuarioRef = usuariosRef.child(UID);
             //Se busca el primer pago de ese usuario
             DatabaseReference pagosRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE);
-            pagosRef.addValueEventListener(new ValueEventListener() {
+            pagosRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //Se meten todos los autos en un Iterable de tipo DataSnapshot
@@ -117,7 +115,7 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
                         auto.setNumeroDocPropietario(numeroDocPropietario);
                         auto.setPlaca(placa);
                         auto.setNombrePersonalizado(nombrePersonalizado);
-                        auto.setCantidadPeajesHabilitados(0);
+                        auto.setPeajesHabilitados(false);
                         //Se le asocia ese pago al auto mediante su key
                         auto.setIdPagoCorrespondiente(keyPago);
                         //Finalmente se escribe el auto en la base de datos para el usuario correspondiente.
