@@ -1,5 +1,8 @@
 package co.edu.udea.telepeaje.Objetos;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by bairon.alvarez on 21/04/17.
  */
@@ -80,5 +83,18 @@ public class Pago {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    //Lleva los datos del objeto a un HashMap para efectos de actualizaciones de algun dato en la base de datos
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("tipo", tipo);
+        result.put("numeroTarjeta", numeroTarjeta);
+        result.put("mesVencimiento", mesVencimiento);
+        result.put("anoVencimiento", anoVencimiento);
+        result.put("cvv", cvv);
+        result.put("correo", correo);
+        result.put("contrasena", contrasena);
+        return result;
     }
 }

@@ -25,6 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
 import co.edu.udea.telepeaje.Objetos.Pago;
@@ -90,7 +93,46 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
         });
     }
 
-    public void seleccionarPago(View view) {
+    public void seleccionarPago(View view, final String pagoKey) {
+        //Se actualiza el idPagoCorrespondiente del auto en la base de datos
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
+        SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
+        final String UID = misPreferencias.getString("UID", "");
+        DatabaseReference usuarioRef = usuariosRef.child(UID);
+        DatabaseReference autosRef = usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE);
+        final String autoKey = getIntent().getStringExtra("autoKey");
+        autosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> autos = dataSnapshot.getChildren();
+                //Se recorre ese Iterable
+                while(autos.iterator().hasNext()){
+                    //Se coge uno de esos DataSnapshots (auto) que hay en el Iterable
+                    DataSnapshot autoDS = autos.iterator().next();
+                    //Se busca el auto que actualmente se está modificando
+                    if((autoDS.getKey().equals(autoKey))||(autoDS.getKey()==autoKey)){
+                        //Se procede a actualizar su idPagoCorrespondiente
+                        Auto auto = autoDS.getValue(Auto.class);
+                        auto.setIdPagoCorrespondiente(pagoKey);
+                        Map<String, Object> autoMap = auto.toMap();
+
+                        Map<String, Object> autoActualizacion = new HashMap<>();
+                        String ruta = "/"+UID+"/"+FirebaseReferences.AUTOS_REFERENCE+"/"+autoKey;
+                        autoActualizacion.put(ruta, autoMap);
+                        usuariosRef.updateChildren(autoActualizacion);
+                        Toast.makeText(SeleccionarPagoActivity.this, "Entra", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         //Se manda a una clase intermedia el tag del botón que se seleccionó como método de pago
         ConfiguracionAuto.setPago(view.getTag().toString());
         //Se manda la actividad desde la cual se configuró el auto, para efectos del toast que aparece en MiAutoActivity
@@ -101,7 +143,7 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
     }
 
     @SuppressLint("InlinedApi")
-    private void ponerPago(final Pago pago, String pagoKey) {
+    private void ponerPago(final Pago pago, final String pagoKey) {
         //Se definen los elementos que van en el layout para cada auto
         LayoutInflater inflater = LayoutInflater.from(SeleccionarPagoActivity.this);
         int id = R.layout.layout_pago;
@@ -119,7 +161,7 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
         pagoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                seleccionarPago(v);
+                seleccionarPago(v, pagoKey);
             }
         });
         //El tag de eliminarPagoButton será el key del pago

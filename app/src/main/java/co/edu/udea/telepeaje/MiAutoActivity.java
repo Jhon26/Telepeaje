@@ -91,6 +91,7 @@ public class MiAutoActivity extends AppCompatActivity {
 
     public void openSeleccionarPago(View view){
         Intent intent = new Intent(this, SeleccionarPagoActivity.class);
+        intent.putExtra("autoKey", getIntent().getStringExtra("tagCardView"));
         startActivity(intent);
     }
 

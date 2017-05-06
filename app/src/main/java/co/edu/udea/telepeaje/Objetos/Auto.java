@@ -1,5 +1,8 @@
 package co.edu.udea.telepeaje.Objetos;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by bairon.alvarez on 21/04/17.
  */
@@ -81,5 +84,18 @@ public class Auto {
 
     public void setNombrePersonalizado(String nombrePersonalizado) {
         this.nombrePersonalizado = nombrePersonalizado;
+    }
+
+    //Lleva los datos del objeto a un HashMap para efectos de actualizaciones de algun dato en la base de datos
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("nombrePropietario", nombrePropietario);
+        result.put("tipoDocPropietario", tipoDocPropietario);
+        result.put("numeroDocPropietario", numeroDocPropietario);
+        result.put("placa", placa);
+        result.put("nombrePersonalizado", nombrePersonalizado);
+        result.put("cantidadPeajesHabilitados", cantidadPeajesHabilitados);
+        result.put("idPagoCorrespondiente", idPagoCorrespondiente);
+        return result;
     }
 }
