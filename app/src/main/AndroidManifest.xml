@@ -37,7 +37,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResetPassActivity"></activity>
+        <activity android:name=".ResetPassActivity" />
+        <activity
+            android:name=".NavigationDrawerActivity"
+            android:label="@string/title_activity_navigation_drawer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".InfoPersonal"
+            android:label="@string/title_activity_info_personal"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.commit();
 
                     //Se lanza la actividad para mostrar los autos del usuario logueado
-                    Intent intent = new Intent(MainActivity.this, MisAutosActivity.class);
+                    Intent intent = new Intent(MainActivity.this, NavigationDrawerActivity.class);
                     startActivity(intent);
                 }else{//Sesion cerrada
                     Log.i("SESSION", "sesión cerrada");

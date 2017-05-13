@@ -136,10 +136,10 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
             String origen = getIntent().getStringExtra("claseOrigen");
             if(origen.equals("InformacionPagoActivity")){
                 //Construcción del intent
-                Intent intent = new Intent(this, MisAutosActivity.class);
+                Intent intent = new Intent(this, NavigationDrawerActivity.class);
                 intent.putExtra("usuarioKey", getIntent().getStringExtra("usuarioKey"));
                 startActivity(intent);
-            }else if(origen.equals("MisAutosActivity")){
+            }else if(origen.equals("NavigationDrawerActivity")){
                 finish();
             }
         }

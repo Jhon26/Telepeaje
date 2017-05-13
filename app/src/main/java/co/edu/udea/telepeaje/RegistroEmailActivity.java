@@ -67,8 +67,9 @@ public class RegistroEmailActivity extends AppCompatActivity {
                     editor.commit();
 
                     //Creación del intent y paso de datos
-                    Intent intent = new Intent(RegistroEmailActivity.this, InformacionPersonalActivity.class);
+                    Intent intent = new Intent(RegistroEmailActivity.this, InfoPersonal.class);
                     intent.putExtra("usuario", usuario);
+                    intent.putExtra("origen", false);
                     startActivity(intent);
                 }else{//Sesion cerrada
                     Log.i("SESSION", "sesión cerrada");

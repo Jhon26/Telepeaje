@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contenedor_info_personal"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.edu.udea.telepeaje.InformacionPersonalActivity">
+    tools:context="co.edu.udea.telepeaje.InfoPersonalFragment">
 
     <TextView
         android:id="@+id/textView"
@@ -78,9 +77,6 @@
         android:layout_below="@+id/placa_edit_text"
         android:clickable="true"
         android:onClick="openInformacionVehiculo"
-        app:backgroundTint="@android:color/black"
-        app:elevation="24dp"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/ic_action_compose" />
+        android:src="@drawable/ic_action_compose" />
 
 </RelativeLayout>

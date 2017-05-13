@@ -16,6 +16,10 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
 import co.edu.udea.telepeaje.Objetos.Pago;
 
@@ -37,6 +41,8 @@ public class InformacionPagoActivity extends AppCompatActivity {
     int anoVencimiento;
     String cvv;
 
+    //Referencia al usuario actual de la base de datos
+    DatabaseReference usuarioRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,14 @@ public class InformacionPagoActivity extends AppCompatActivity {
         ArrayAdapter spinnerAdapterAno = ArrayAdapter.createFromResource( this, R.array.anos, android.R.layout.simple_spinner_item);
         spinnerAdapterAno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAnoVencimiento.setAdapter(spinnerAdapterAno);
+
+        Intent intent = getIntent();
+        if(intent.getStringExtra("claseOrigen").equals("SeleccionarPagoActivity")){
+            editTextNumeroTarjeta.setText(String.valueOf(intent.getLongExtra("numeroTarjeta", 0)));
+            spinnerMesVencimiento.setSelection(intent.getIntExtra("mesVencimiento", 0)-1);
+            spinnerAnoVencimiento.setSelection(intent.getIntExtra("anoVencimiento", 0)-17);
+            editTextCVV.setText(intent.getStringExtra("cvv"));
+        }
     }
 
     public void siguienteActivity(View view){
@@ -90,7 +104,7 @@ public class InformacionPagoActivity extends AppCompatActivity {
             pago.setAnoVencimiento(anoVencimiento);
             pago.setCvv(cvv);
 
-            //Finalmente se escribe el pago en la base de datos para el usuario correspondiente.
+            //Finalmente se escribe (o actualiza) el pago en la base de datos para el usuario correspondiente.
             //Primero se toma la instancia de la base de datos
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             //Se carga la referencia al usuario actual mediante el SharedPreferences
@@ -100,20 +114,31 @@ public class InformacionPagoActivity extends AppCompatActivity {
             //Se toma la referencia de todos los usuarios
             DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
             //Se busca el usuario correspondiente dentro de todos los usuarios
-            DatabaseReference usuarioRef = usuariosRef.child(UID);
-            // Al usuario se le añade un "hijo" llamado pagos y se le "empuja" un primer valor
-            DatabaseReference pagoRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE).push();
-            pagoRef.setValue(pago);
+            usuarioRef = usuariosRef.child(UID);
 
-            //Se establece cuál activity debe abrir el button
+            //Se establece cuál activity debe abrir el button y el resto de su acción
             String origen = getIntent().getStringExtra("claseOrigen");
-            if(origen.equals("InformacionPersonalActivity")){
+            if(origen.equals("InfoPersonal")){
+                // Al usuario se le añade un "hijo" llamado pagos y se le "empuja" un primer valor
+                DatabaseReference pagoRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE).push();
+                pagoRef.setValue(pago);
+
                 //Construcción del intent
                 Intent intent = new Intent(this, InformacionVehiculoActivity.class);
                 String claseOrigen = this.getLocalClassName();
                 intent.putExtra("claseOrigen", claseOrigen);
                 startActivity(intent);
             }else if(origen.equals("SeleccionarPagoActivity")){
+                //Se modifican los datos de pago del usuario
+                Map<String, Object> pagoMap = pago.toMap();
+                Map<String, Object> pagoActualizacion = new HashMap<>();
+                String pagoKey = getIntent().getStringExtra("pagoKey");
+                String ruta = "/"+UID+"/"+FirebaseReferences.PAGOS_REFERENCE+"/"+pagoKey;
+                pagoActualizacion.put(ruta, pagoMap);
+                usuariosRef.updateChildren(pagoActualizacion);
+                //Toast.makeText(SeleccionarPagoActivity.this, "Entra", Toast.LENGTH_LONG).show();
+
+
                 finish();
             }
         }

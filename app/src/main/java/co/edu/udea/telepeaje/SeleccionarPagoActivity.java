@@ -150,6 +150,7 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
         LinearLayout linearLayout = (LinearLayout) inflater.inflate(id, null, false);
         Button pagoButton = (Button) linearLayout.findViewById(R.id.pago_button);
         Button eliminarPagoButton = (Button) linearLayout.findViewById(R.id.eliminar_pago_button);
+        Button editarPagoButton = (Button) linearLayout.findViewById(R.id.editar_pago_button);
         //Se configuran los elementos
         //Se formatea el método de pago para que no se muestre completamente
         String numeroTarjeta = String.valueOf(pago.getNumeroTarjeta());
@@ -170,6 +171,13 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 eliminarPago(v);
+            }
+        });
+        editarPagoButton.setTag(pagoKey);
+        editarPagoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editarPago(v);
             }
         });
         layout.addView(linearLayout);
@@ -241,6 +249,42 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
         }else if(cont==1){
             Toast.makeText(this, "Pulse otra vez para eliminar el pago", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void editarPago(final View view){
+        //Se toma la referencia a todos los pagos del usuario
+        DatabaseReference pagosRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE);
+        pagosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Se crea un iterable con todos esos pagos
+                Iterable<DataSnapshot> pagos = dataSnapshot.getChildren();
+                //Se recorre ese iterable
+                while(pagos.iterator().hasNext()){
+                    //Se toma cada elemento de ese iterable
+                    DataSnapshot pagoDS = pagos.iterator().next();
+                    //Si se encuentra el pago al cual se le dio clic en editar, se toman sus datos y se le envian a la actividad
+                    if((pagoDS.getKey()==view.getTag().toString())||
+                            (pagoDS.getKey().equals(view.getTag().toString()))){
+                        Pago pago = pagoDS.getValue(Pago.class);
+                        //Toast.makeText(SeleccionarPagoActivity.this, pago.getMesVencimiento())
+                        Intent intent = new Intent(SeleccionarPagoActivity.this, InformacionPagoActivity.class);
+                        intent.putExtra("numeroTarjeta", pago.getNumeroTarjeta());
+                        intent.putExtra("mesVencimiento", pago.getMesVencimiento());
+                        intent.putExtra("anoVencimiento", pago.getAnoVencimiento());
+                        intent.putExtra("cvv", pago.getCvv());
+                        intent.putExtra("pagoKey", view.getTag().toString());
+                        intent.putExtra("claseOrigen", SeleccionarPagoActivity.this.getLocalClassName());
+                        startActivity(intent);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
