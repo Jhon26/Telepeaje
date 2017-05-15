@@ -10,10 +10,6 @@
             android:id="@+id/nav_info_personal"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Información Personal" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
     </group>
 
 
