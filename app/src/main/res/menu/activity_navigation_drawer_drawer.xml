@@ -3,13 +3,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_mis_vehiculos"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Mis Vehículos" />
+            android:id="@+id/nav_mis_autos"
+            android:icon="@drawable/ic_mis_vehiculos"
+            android:title="Mis Autos" />
         <item
             android:id="@+id/nav_info_personal"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_cuenta"
             android:title="Información Personal" />
+        <item
+            android:id="@+id/nav_historial_pagos"
+            android:icon="@drawable/ic_historial"
+            android:title="Historial de Pagos" />
+        <item
+            android:id="@+id/nav_acerca_nosotros"
+            android:icon="@drawable/ic_acerca_de_nosotros"
+            android:title="Acerca de Nosotros" />
+        <item
+            android:id="@+id/nav_cerrar_sesion"
+            android:icon="@drawable/ic_logout"
+            android:title="Cerrar Sesión" />
     </group>
 
 

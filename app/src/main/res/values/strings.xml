@@ -22,7 +22,10 @@
     <string name="hi">¡Hola!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="mis_autos_title">Mis Vehículos</string>
+    <string name="mis_autos_title">Mis Autos</string>
+    <string name="informacion_personal_title">Información Personal</string>
+    <string name="historial_pagos_title">Historial de Pagos</string>
+    <string name="acerca_de_nosotros_title">Acerca de Nosotros</string>
     <string name="title_activity_contenedor_opciones">ContenedorOpciones</string>
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -147,18 +147,30 @@ public class NavigationDrawerActivity extends AppCompatActivity
         Fragment fragment = null;
         boolean fragmentoElegido = false;
 
-        if (id == R.id.nav_mis_vehiculos) {
-
+        if (id == R.id.nav_mis_autos) {
             fragment = new MisAutosFragment();
             fragmentoElegido = true;
             cambiarTitulo(R.string.mis_autos_title);
         }else if(id == R.id.nav_info_personal) {
             fragment = new InfoPersonalFragment();
             fragmentoElegido = true;
-            cambiarTitulo(R.string.mis_autos_title);
+            cambiarTitulo(R.string.informacion_personal_title);
             bundle = new Bundle();
             bundle.putBoolean("origen",true);
             fragment.setArguments(bundle);
+        }else if(id == R.id.nav_historial_pagos){
+
+            cambiarTitulo(R.string.historial_pagos_title);
+
+        }else if(id == R.id.nav_acerca_nosotros){
+
+
+            cambiarTitulo(R.string.acerca_de_nosotros_title);
+
+        }else if(id == R.id.nav_cerrar_sesion){
+            FirebaseAuth.getInstance().signOut();
+            Log.i("SESSION", "sesión cerrada");
+            Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
         }
 
         if(fragmentoElegido){
