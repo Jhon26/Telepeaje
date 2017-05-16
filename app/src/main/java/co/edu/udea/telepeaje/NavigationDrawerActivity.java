@@ -1,6 +1,8 @@
 package co.edu.udea.telepeaje;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,9 +18,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
+import co.edu.udea.telepeaje.Objetos.Usuario;
+
+import static co.edu.udea.telepeaje.ConfiguracionAuto.getActivity;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -29,6 +42,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
     FirebaseAuth.AuthStateListener mAuthListener;
 
     TextView textViewCorreo, textViewNombre;
+
+    //Nombre y apellidos del usuario
+    String nombreApellidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +78,27 @@ public class NavigationDrawerActivity extends AppCompatActivity
         textViewCorreo = (TextView) view.findViewById(R.id.correoTextView);
         textViewNombre = (TextView) view.findViewById(R.id.nombreTextView);
 
-        textViewCorreo.setText( FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        textViewNombre.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        //Se lee el usuario actual para extraer sus datos
+        FirebaseDatabase database  = FirebaseDatabase.getInstance();
+        DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
+        SharedPreferences misPreferencias = getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
+        String UID = misPreferencias.getString("UID", "");
+        DatabaseReference usuarioRef = usuariosRef.child(UID);
+        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                nombreApellidos = usuario.getNombres()+" "+usuario.getApellidos();
+                textViewNombre.setText(nombreApellidos);
+                textViewCorreo.setText( FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         //Inicializo el primer fragment
         Fragment fragment = new MisAutosFragment();

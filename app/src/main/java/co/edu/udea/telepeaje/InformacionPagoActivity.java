@@ -118,17 +118,7 @@ public class InformacionPagoActivity extends AppCompatActivity {
 
             //Se establece cuál activity debe abrir el button y el resto de su acción
             String origen = getIntent().getStringExtra("claseOrigen");
-            if(origen.equals("InfoPersonal")){
-                // Al usuario se le añade un "hijo" llamado pagos y se le "empuja" un primer valor
-                DatabaseReference pagoRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE).push();
-                pagoRef.setValue(pago);
-
-                //Construcción del intent
-                Intent intent = new Intent(this, InformacionVehiculoActivity.class);
-                String claseOrigen = this.getLocalClassName();
-                intent.putExtra("claseOrigen", claseOrigen);
-                startActivity(intent);
-            }else if(origen.equals("SeleccionarPagoActivity")){
+            if(origen.equals("SeleccionarPagoActivity")){
                 //Se modifican los datos de pago del usuario
                 Map<String, Object> pagoMap = pago.toMap();
                 Map<String, Object> pagoActualizacion = new HashMap<>();
@@ -140,6 +130,20 @@ public class InformacionPagoActivity extends AppCompatActivity {
 
 
                 finish();
+            }else{
+                // Al usuario se le añade un "hijo" llamado pagos y se le "empuja" un valor
+                DatabaseReference pagoRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE).push();
+                pagoRef.setValue(pago);
+                if(origen.equals("InfoPersonal")){
+                    //Construcción del intent
+                    Intent intent = new Intent(this, InformacionVehiculoActivity.class);
+                    String claseOrigen = this.getLocalClassName();
+                    intent.putExtra("claseOrigen", claseOrigen);
+                    startActivity(intent);
+                }else if(origen.equals("SeleccionarPagoActivity2")){
+                    finish();
+                }
+
             }
         }
     }

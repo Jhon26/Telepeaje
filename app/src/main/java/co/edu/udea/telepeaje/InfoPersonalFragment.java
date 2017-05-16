@@ -133,7 +133,10 @@ public class InfoPersonalFragment extends Fragment {
                     usuario2 = dataSnapshot.getValue(Usuario.class);
                     editTextNombres.setText(usuario2.getNombres());
                     editTextApellidos.setText(usuario2.getApellidos());
-                    editTextCelular.setText(String.valueOf(usuario2.getCelular()));
+                    String celular = String.valueOf(usuario2.getCelular());
+                    char[] celularFormateado = new char[10];
+                    celular.getChars(2, celular.length(), celularFormateado, 0);
+                    editTextCelular.setText(String.valueOf(celularFormateado));
                 }
 
                 @Override

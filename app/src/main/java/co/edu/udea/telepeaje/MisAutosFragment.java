@@ -207,37 +207,40 @@ public class MisAutosFragment extends Fragment {
                     if((pagoDS.getKey()==auto.getIdPagoCorrespondiente())||(pagoDS.getKey().equals(auto.getIdPagoCorrespondiente()))){
                         pago = pagoDS.getValue(Pago.class);
                         //Se definen los elementos que van en el layout para cada auto
-                        LayoutInflater inflater = LayoutInflater.from(getContext());
-                        int id = R.layout.layout_card_view_auto;
-                        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(id, null, false);
-                        CardView cardView = (CardView) relativeLayout.findViewById(R.id.auto_card_view);
-                        TextView textViewNombreAuto = (TextView) relativeLayout.findViewById(R.id.nombre_auto_text_view);
-                        TextView textViewPeajesHabilitados = (TextView) relativeLayout.findViewById(R.id.peajes_habilitados_text_view);
-                        TextView textViewPlaca = (TextView) relativeLayout.findViewById(R.id.placa_text_view);
-                        TextView textViewPago = (TextView) relativeLayout.findViewById(R.id.pago_text_view);
-                        //Se configuran los elementos
-                        textViewNombreAuto.setText(auto.getNombrePersonalizado().toString());
-                        if(auto.getPeajesHabilitados()){
-                            textViewPeajesHabilitados.setText("Todos los peajes estan habilitados");
-                        }else{
-                            textViewPeajesHabilitados.setText("Todos los peajes estan deshabilitados");
-                        }
-                        textViewPlaca.setText(auto.getPlaca().toString());
-                        //Se formatea el método de pago para que no se muestre completamente
-                        String numeroTarjeta = String.valueOf(pago.getNumeroTarjeta());
-                        char [] numeroTarjetaFormateada = new char[9];
-                        numeroTarjeta.getChars(12, 16, numeroTarjetaFormateada, 0);
-                        textViewPago.setText("xxxx "+String.valueOf(numeroTarjetaFormateada));
-                        //El tag de la cardView será el id del auto
-                        cardView.setTag(autoKey);
-                        cardView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                openMiAuto(v);
+                        LayoutInflater inflater = null;
+                        if(getContext()!=null){
+                            inflater = LayoutInflater.from(getContext());
+                            int id = R.layout.layout_card_view_auto;
+                            RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(id, null, false);
+                            CardView cardView = (CardView) relativeLayout.findViewById(R.id.auto_card_view);
+                            TextView textViewNombreAuto = (TextView) relativeLayout.findViewById(R.id.nombre_auto_text_view);
+                            TextView textViewPeajesHabilitados = (TextView) relativeLayout.findViewById(R.id.peajes_habilitados_text_view);
+                            TextView textViewPlaca = (TextView) relativeLayout.findViewById(R.id.placa_text_view);
+                            TextView textViewPago = (TextView) relativeLayout.findViewById(R.id.pago_text_view);
+                            //Se configuran los elementos
+                            textViewNombreAuto.setText(auto.getNombrePersonalizado().toString());
+                            if(auto.getPeajesHabilitados()){
+                                textViewPeajesHabilitados.setText("Todos los peajes estan habilitados");
+                            }else{
+                                textViewPeajesHabilitados.setText("Todos los peajes estan deshabilitados");
                             }
-                        });
-                        layout.addView(relativeLayout);
-                        return;
+                            textViewPlaca.setText(auto.getPlaca().toString());
+                            //Se formatea el método de pago para que no se muestre completamente
+                            String numeroTarjeta = String.valueOf(pago.getNumeroTarjeta());
+                            char [] numeroTarjetaFormateada = new char[9];
+                            numeroTarjeta.getChars(12, 16, numeroTarjetaFormateada, 0);
+                            textViewPago.setText("xxxx "+String.valueOf(numeroTarjetaFormateada));
+                            //El tag de la cardView será el id del auto
+                            cardView.setTag(autoKey);
+                            cardView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    openMiAuto(v);
+                                }
+                            });
+                            layout.addView(relativeLayout);
+                            return;
+                        }
                     }
                 }
             }

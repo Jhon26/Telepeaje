@@ -185,7 +185,8 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
 
     public void agregarPago(View view){
         Intent intent = new Intent(this, InformacionPagoActivity.class);
-        String origen = this.getLocalClassName();
+        //Se le añade un 2 al nombre de la clase origen para que haga otra funcionalidad
+        String origen = this.getLocalClassName()+"2";
         intent.putExtra("claseOrigen", origen);
         startActivity(intent);
     }

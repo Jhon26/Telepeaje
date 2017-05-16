@@ -115,7 +115,7 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
                         auto.setNumeroDocPropietario(numeroDocPropietario);
                         auto.setPlaca(placa);
                         auto.setNombrePersonalizado(nombrePersonalizado);
-                        auto.setPeajesHabilitados(false);
+                        auto.setPeajesHabilitados(true);
                         //Se le asocia ese pago al auto mediante su key
                         auto.setIdPagoCorrespondiente(keyPago);
                         //Finalmente se escribe el auto en la base de datos para el usuario correspondiente.
