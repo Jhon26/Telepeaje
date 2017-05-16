@@ -44,7 +44,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     TextView textViewCorreo, textViewNombre;
 
-    CircleProgressBar circleProgressBar;
 
 
     //Nombre y apellidos del usuario
@@ -81,8 +80,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         View view = navigationView.getHeaderView(0);
         textViewCorreo = (TextView) view.findViewById(R.id.correoTextView);
         textViewNombre = (TextView) view.findViewById(R.id.nombreTextView);
-        circleProgressBar = (CircleProgressBar) view.findViewById(R.id.progress_bar_cerrar_sesion);
-        circleProgressBar.setColorSchemeColors(R.color.colorPrimary);
 
         //Se lee el usuario actual para extraer sus datos
         FirebaseDatabase database  = FirebaseDatabase.getInstance();
@@ -174,11 +171,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
             cambiarTitulo(R.string.acerca_de_nosotros_title);
 
         }else if(id == R.id.nav_cerrar_sesion){
-            //Antes de cerrar sesión se muestra el circle progress bar
-            circleProgressBar.setVisibility(View.VISIBLE);
             FirebaseAuth.getInstance().signOut();
-            //Después de cerrar sesión se oculta el circle progress bar
-            circleProgressBar.setVisibility(View.INVISIBLE);
+            finish();
             Log.i("SESSION", "sesión cerrada");
             Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
         }
