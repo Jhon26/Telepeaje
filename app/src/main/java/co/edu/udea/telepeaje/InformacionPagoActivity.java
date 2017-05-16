@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,8 @@ public class InformacionPagoActivity extends AppCompatActivity {
     Spinner spinnerMesVencimiento;
     Spinner spinnerAnoVencimiento;
     EditText editTextCVV;
+    CircleProgressBar circleProgressBar;
+
     //EditText editTextEmailPago;
     //EditText editTextPassPago;
 
@@ -54,6 +57,8 @@ public class InformacionPagoActivity extends AppCompatActivity {
         spinnerMesVencimiento = (Spinner) findViewById(R.id.mes_vencimiento_spinner);
         spinnerAnoVencimiento = (Spinner) findViewById(R.id.ano_vencimiento_spinner);
         editTextCVV = (EditText) findViewById(R.id.cvv_edit_text);
+        circleProgressBar = (CircleProgressBar) findViewById(R.id.progress_bar_info_pago);
+        circleProgressBar.setColorSchemeColors(R.color.colorPrimary);
         //editTextEmailPago = (EditText) findViewById(R.id.email_pago_edit_text);
         //editTextPassPago = (EditText) findViewById(R.id.pass_pago_edit_text);
 
@@ -104,6 +109,8 @@ public class InformacionPagoActivity extends AppCompatActivity {
             pago.setAnoVencimiento(anoVencimiento);
             pago.setCvv(cvv);
 
+            //Antes de escribir todos los datos se empieza a mostrar la circle progress bar
+            circleProgressBar.setVisibility(View.VISIBLE);
             //Finalmente se escribe (o actualiza) el pago en la base de datos para el usuario correspondiente.
             //Primero se toma la instancia de la base de datos
             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -126,6 +133,8 @@ public class InformacionPagoActivity extends AppCompatActivity {
                 String ruta = "/"+UID+"/"+FirebaseReferences.PAGOS_REFERENCE+"/"+pagoKey;
                 pagoActualizacion.put(ruta, pagoMap);
                 usuariosRef.updateChildren(pagoActualizacion);
+                //Despues de escribir todos los datos se oculta la circle progress bar
+                circleProgressBar.setVisibility(View.INVISIBLE);
                 //Toast.makeText(SeleccionarPagoActivity.this, "Entra", Toast.LENGTH_LONG).show();
 
 
@@ -134,6 +143,8 @@ public class InformacionPagoActivity extends AppCompatActivity {
                 // Al usuario se le añade un "hijo" llamado pagos y se le "empuja" un valor
                 DatabaseReference pagoRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE).push();
                 pagoRef.setValue(pago);
+                //Despues de escribir todos los datos se oculta la circle progress bar
+                circleProgressBar.setVisibility(View.INVISIBLE);
                 if(origen.equals("InfoPersonal")){
                     //Construcción del intent
                     Intent intent = new Intent(this, InformacionVehiculoActivity.class);

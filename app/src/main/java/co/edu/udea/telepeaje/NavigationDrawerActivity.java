@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
 import co.edu.udea.telepeaje.Objetos.Usuario;
@@ -42,6 +43,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
     FirebaseAuth.AuthStateListener mAuthListener;
 
     TextView textViewCorreo, textViewNombre;
+
+    CircleProgressBar circleProgressBar;
+
 
     //Nombre y apellidos del usuario
     String nombreApellidos;
@@ -77,6 +81,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         View view = navigationView.getHeaderView(0);
         textViewCorreo = (TextView) view.findViewById(R.id.correoTextView);
         textViewNombre = (TextView) view.findViewById(R.id.nombreTextView);
+        circleProgressBar = (CircleProgressBar) view.findViewById(R.id.progress_bar_cerrar_sesion);
+        circleProgressBar.setColorSchemeColors(R.color.colorPrimary);
 
         //Se lee el usuario actual para extraer sus datos
         FirebaseDatabase database  = FirebaseDatabase.getInstance();
@@ -168,7 +174,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
             cambiarTitulo(R.string.acerca_de_nosotros_title);
 
         }else if(id == R.id.nav_cerrar_sesion){
+            //Antes de cerrar sesión se muestra el circle progress bar
+            circleProgressBar.setVisibility(View.VISIBLE);
             FirebaseAuth.getInstance().signOut();
+            //Después de cerrar sesión se oculta el circle progress bar
+            circleProgressBar.setVisibility(View.INVISIBLE);
             Log.i("SESSION", "sesión cerrada");
             Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
         }

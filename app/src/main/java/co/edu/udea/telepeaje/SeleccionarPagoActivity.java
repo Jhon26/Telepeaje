@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,7 @@ import co.edu.udea.telepeaje.Objetos.Pago;
 public class SeleccionarPagoActivity extends AppCompatActivity {
 
     //Referencia a elementos de la interfaz
+    CircleProgressBar circleProgressBar;
     FloatingActionButton buttonAgregarPago;
     private ViewGroup layout;
 
@@ -53,9 +55,13 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
         cont = 0;
 
         //Referencia a elementos de la interfaz
+        circleProgressBar = (CircleProgressBar) findViewById(R.id.progress_bar_seleccionar_pago);
+        circleProgressBar.setColorSchemeColors(R.color.colorPrimary);
         buttonAgregarPago = (FloatingActionButton) findViewById(R.id.agregar_auto_button);
         layout = (ViewGroup) findViewById(R.id.content);
 
+        //Antes de leer los datos se muestra la circle progress bar
+        circleProgressBar.setVisibility(View.VISIBLE);
         //Lectura de los pagos desde la BD
         //Instancia de la base de datos
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -84,6 +90,8 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
                     //Se ponen los atributos de ese objeto en su correspondiente layout
                     ponerPago(pago, pagoDS.getKey());
                 }
+                //Después de haber leído los datos se oculta la circle progress bar
+                circleProgressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -94,6 +102,8 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
     }
 
     public void seleccionarPago(View view, final String pagoKey) {
+        //Antes de escribir los datos se muestra la circle progress bar
+        circleProgressBar.setVisibility(View.VISIBLE);
         //Se actualiza el idPagoCorrespondiente del auto en la base de datos
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
@@ -125,6 +135,8 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
                         return;
                     }
                 }
+                //Después de haber escrito los datos se oculta la circle progress bar
+                circleProgressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -194,6 +206,8 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
     public void eliminarPago(final View view){
         cont++;
         if(cont==2){
+            //Antes de eliminar los datos se muestra la circle progress bar
+            circleProgressBar.setVisibility(View.VISIBLE);
             //Pimero se recorren todos los autos para verificar que el medio de pago a eliminar no está asociado a ninguno de ellos
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
@@ -239,6 +253,8 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
                             });
                         }
                     }
+                    //Cuando se eliminen los datos se oculta la circle progress bar
+                    circleProgressBar.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -253,6 +269,8 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
     }
 
     public void editarPago(final View view){
+        //Antes de escribir los datos se muestra la circle progress bar
+        circleProgressBar.setVisibility(View.VISIBLE);
         //Se toma la referencia a todos los pagos del usuario
         DatabaseReference pagosRef = usuarioRef.child(FirebaseReferences.PAGOS_REFERENCE);
         pagosRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -279,6 +297,8 @@ public class SeleccionarPagoActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
+                //Después de haber escrito los datos se oculta la circle progress bar
+                circleProgressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override

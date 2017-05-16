@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contenedor_info_personal"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -78,5 +79,18 @@
         android:clickable="true"
         android:onClick="openInformacionVehiculo"
         android:src="@drawable/ic_action_compose" />
+
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:id="@+id/progress_bar_info_personal"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:mlpb_show_arrow="true"
+        app:mlpb_arrow_height="5dp"
+        app:mlpb_arrow_width="10dp"
+        app:mlpb_progress_stoke_width="2dp"
+        app:mlpb_progress_text_visibility="invisible"
+        />
 
 </RelativeLayout>

@@ -87,6 +87,19 @@
         android:layout_alignRight="@+id/numero_doc_propietario_edit_text"
         android:layout_alignEnd="@+id/numero_doc_propietario_edit_text" />
 
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:id="@+id/progress_bar_info_vehiculo"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:mlpb_show_arrow="true"
+        app:mlpb_arrow_height="5dp"
+        app:mlpb_arrow_width="10dp"
+        app:mlpb_progress_stoke_width="2dp"
+        app:mlpb_progress_text_visibility="invisible"
+        />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/info_vehiculo_button"
         android:layout_width="wrap_content"

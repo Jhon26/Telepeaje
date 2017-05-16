@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
@@ -28,6 +29,8 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
     EditText editTextNumeroDocPropietario;
     EditText editTextPlaca;
     EditText editTextNombrePersonalizado;
+    CircleProgressBar circleProgressBar;
+
 
     //Datos para el registro del usuario
     String nombrePropietario;
@@ -49,6 +52,8 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
         editTextNumeroDocPropietario = (EditText) findViewById(R.id.numero_doc_propietario_edit_text);
         editTextPlaca = (EditText) findViewById(R.id.placa_edit_text);
         editTextNombrePersonalizado = (EditText) findViewById(R.id.nombre_personalizado_edit_text);
+        circleProgressBar = (CircleProgressBar) findViewById(R.id.progress_bar_info_vehiculo);
+        circleProgressBar.setColorSchemeColors(R.color.colorPrimary);
         //Configuración del spinner
         ArrayAdapter spinner_adapter = ArrayAdapter.createFromResource( this, R.array.tipos_identificacion , android.R.layout.simple_spinner_item);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -84,6 +89,8 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
         }else {
             //Se construye un auto para el usuario
             final Auto auto = new Auto();
+            //Antes de empezar a leer y escribir los datos, se muestra la circle progress bar
+            circleProgressBar.setVisibility(View.VISIBLE);
             //Se busca el primer pago registrado en la base de datos para que sea el pago correspondiente de este auto
             //Primero se toma la instancia de la base de datos
             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -122,6 +129,9 @@ public class InformacionVehiculoActivity extends AppCompatActivity {
 
                         // Al usuario se le añade un "hijo" llamado autos y se le "empuja" un primer valor
                         usuarioRef.child(FirebaseReferences.AUTOS_REFERENCE).push().setValue(auto);
+
+                        //Después de haber leído y escrito los datos se oculta la circle progress bar
+                        circleProgressBar.setVisibility(View.INVISIBLE);
                         return;
                     }
                 }

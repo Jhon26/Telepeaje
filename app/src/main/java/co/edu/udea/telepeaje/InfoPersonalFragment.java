@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,6 +58,7 @@ public class InfoPersonalFragment extends Fragment {
     EditText editTextApellidos;
     Spinner spinnerCodigoArea;
     EditText editTextCelular;
+    CircleProgressBar circleProgressBar;
     FloatingActionButton buttonSiguiente;
 
     //Datos para el registro del usuario
@@ -111,17 +113,22 @@ public class InfoPersonalFragment extends Fragment {
         editTextApellidos = (EditText) view.findViewById(R.id.nombre_personalizado_edit_text);
         spinnerCodigoArea = (Spinner) view.findViewById(R.id.tipo_pago_spinner);
         editTextCelular = (EditText) view.findViewById(R.id.placa_edit_text);
+        circleProgressBar = (CircleProgressBar) view.findViewById(R.id.progress_bar_info_personal);
+        circleProgressBar.setColorSchemeColors(R.color.colorPrimary);
+        buttonSiguiente = (FloatingActionButton) view.findViewById(R.id.info_personal_button);
 
         //Configuración del spinner
         ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource( getContext(), R.array.codigos_area, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCodigoArea.setAdapter(spinnerAdapter);
 
-        buttonSiguiente = (FloatingActionButton) view.findViewById(R.id.info_personal_button);
+
 
 
 
         if(getArguments().getBoolean("origen")){
+            //Antes de leer todos los datos se empieza a mostrar la circle progress bar
+            circleProgressBar.setVisibility(View.VISIBLE);
             FirebaseDatabase database  = FirebaseDatabase.getInstance();
             DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
             SharedPreferences misPreferencias = getActivity().getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
@@ -137,6 +144,8 @@ public class InfoPersonalFragment extends Fragment {
                     char[] celularFormateado = new char[10];
                     celular.getChars(2, celular.length(), celularFormateado, 0);
                     editTextCelular.setText(String.valueOf(celularFormateado));
+                    //Cuando se terminan de mostrar todos los datos se esconde la circle progress bar
+                    circleProgressBar.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -184,6 +193,8 @@ public class InfoPersonalFragment extends Fragment {
             usuario.setApellidos(apellidos);
             usuario.setCelular(Long.parseLong(celular));
 
+            //Antes de escribir todos los datos se empieza a mostrar la circle progress bar
+            circleProgressBar.setVisibility(View.VISIBLE);
             //Finalmente se escribe el usuario en la base de datos.
             // Primero se toma la instancia de la BD
             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -197,6 +208,8 @@ public class InfoPersonalFragment extends Fragment {
             final DatabaseReference usuarioRef = usuariosRef.child(UID);
             //Se le pone valor a esa referencia (a ese usuario)
             usuarioRef.setValue(usuario);
+            //Cuando se terminan de escribir todos los datos se esconde la circle progress bar
+            circleProgressBar.setVisibility(View.INVISIBLE);
 
             //Construcción del intent
             Intent intent = new Intent(getActivity(), InformacionPagoActivity.class);
@@ -223,6 +236,8 @@ public class InfoPersonalFragment extends Fragment {
             editTextCelular.setError("Ingrese el número de celular");
             Log.e("SESSION", "Ingrese el número de celular");
         }else{
+            //Antes de escribir todos los datos se empieza a mostrar la circle progress bar
+            circleProgressBar.setVisibility(View.VISIBLE);
             FirebaseDatabase database  = FirebaseDatabase.getInstance();
             DatabaseReference usuariosRef = database.getReference(FirebaseReferences.USUARIOS_REFERENCE);
             SharedPreferences misPreferencias = getActivity().getSharedPreferences("PreferenciasUsuario", Context.MODE_PRIVATE);
@@ -279,7 +294,8 @@ public class InfoPersonalFragment extends Fragment {
                         }
                     }
 
-
+                    //Cuando se terminan de escribir todos los datos se esconde la circle progress bar
+                    circleProgressBar.setVisibility(View.INVISIBLE);
                     //Se informa que el usuario ha sido actualizado
                     Toast.makeText(getContext(), "Datos actualizados correctamente", Toast.LENGTH_LONG);
                 }

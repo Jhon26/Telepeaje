@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import co.edu.udea.telepeaje.Objetos.Auto;
 import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
@@ -34,9 +35,8 @@ import co.edu.udea.telepeaje.Objetos.Pago;
 public class MisAutosFragment extends Fragment {
 
     //Referencia a elementos de la interfaz
-    TextView textViewNombreUsuario;
-    TextView textViewLogOut;
     FloatingActionButton buttonAgregarAuto;
+    CircleProgressBar circleProgressBar;
     private ViewGroup layout;
 
     //Listener para la base de datos
@@ -63,14 +63,11 @@ public class MisAutosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mis_autos, container, false);
-
-        textViewNombreUsuario = (TextView) view.findViewById(R.id.nombre_usuario_text_view);
-        textViewLogOut = (TextView) view.findViewById(R.id.log_out_text_view);
         buttonAgregarAuto = (FloatingActionButton) view.findViewById(R.id.agregar_auto_button);
+        circleProgressBar = (CircleProgressBar) view.findViewById(R.id.progress_bar_mis_autos);
+        circleProgressBar.setColorSchemeColors(R.color.colorPrimary);
         layout = (ViewGroup) view.findViewById(R.id.content);
 
-        //Se ponen los datos de la cuenta en los elementos de la interfaz
-        textViewNombreUsuario.setText("¡Hola "+ FirebaseAuth.getInstance().getCurrentUser().getEmail()+"!");
 
         //Listener para la autenticación
         mAuthListener = new FirebaseAuth.AuthStateListener(){
@@ -97,15 +94,8 @@ public class MisAutosFragment extends Fragment {
             }
         });
 
-        textViewLogOut.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                logout();
-            }
-        });
-
+        //Antes de leer todos los datos se empieza a mostrar la circle progress bar
+        circleProgressBar.setVisibility(View.VISIBLE);
         //Lectura de los autos desde la BD
         //Instancia de la base de datos
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -137,6 +127,8 @@ public class MisAutosFragment extends Fragment {
                     /*//Se imprimen los atributos del auto
                     Log.i("Auto", auto.getNombrePersonalizado().toString());*/
                 }
+                //Cuando se terminan de mostrar todos los autos se esconde la circle progress bar
+                circleProgressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -144,6 +136,7 @@ public class MisAutosFragment extends Fragment {
 
             }
         });
+
 
         return view;
     }

@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import co.edu.udea.telepeaje.Objetos.Usuario;
 
@@ -23,6 +24,7 @@ public class RegistroEmailActivity extends AppCompatActivity {
 
     //Referencias a elementos de la interfaz
     EditText editTextEmail, editTextPass;
+    CircleProgressBar circleProgressBar;
     FloatingActionButton buttonRegister;
 
     //Datos para el registro del usuario
@@ -39,6 +41,8 @@ public class RegistroEmailActivity extends AppCompatActivity {
         //Referencias a elementos de la interfaz
         editTextEmail = (EditText) findViewById(R.id.nombre_propietario_edit_text);
         editTextPass = (EditText) findViewById(R.id.numero_doc_propietario_edit_text);
+        circleProgressBar = (CircleProgressBar) findViewById(R.id.progress_bar_registro_email);
+        circleProgressBar.setColorSchemeColors(R.color.colorPrimary);
         buttonRegister = (FloatingActionButton) findViewById(R.id.register_button);
 
         //Se declara el listener
@@ -79,6 +83,8 @@ public class RegistroEmailActivity extends AppCompatActivity {
     }
 
     private void register(String email, String pass){
+        //Antes de registrar al usuario se empieza a mostrar la circle progress bar
+        circleProgressBar.setVisibility(View.VISIBLE);
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -99,6 +105,8 @@ public class RegistroEmailActivity extends AppCompatActivity {
                     }
                     Log.e("SESSION", task.getException().getMessage().toString());
                 }
+                //Cuando se completa el registro del usuario se esconde la circle progress bar
+                circleProgressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
