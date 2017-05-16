@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -198,8 +199,6 @@ public class MisAutosActivity extends AppCompatActivity {
         pagosRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //Se limpian las cardView infladas
-                layout.removeAllViews();
                 //Se meten todos los pagos en un Iterable de tipo DataSnapshot
                 Iterable<DataSnapshot> pagos = dataSnapshot.getChildren();
                 //Se define el pago que se intenta buscar
