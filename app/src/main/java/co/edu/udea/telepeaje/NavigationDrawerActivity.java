@@ -37,7 +37,9 @@ import static co.edu.udea.telepeaje.ConfiguracionAuto.getActivity;
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
         , MisAutosFragment.OnFragmentInteractionListener
-        , InfoPersonalFragment.OnFragmentInteractionListener{
+        , InfoPersonalFragment.OnFragmentInteractionListener
+        , HistorialPagosFragment.OnFragmentInteractionListener
+        , AcercaNostrosFragment.OnFragmentInteractionListener{
 
     //Listener para la base de datos
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -148,26 +150,25 @@ public class NavigationDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
         Bundle bundle = null;
         Fragment fragment = null;
-        boolean fragmentoElegido = false;
+        boolean fragmentoElegido = true;
 
         if (id == R.id.nav_mis_autos) {
             fragment = new MisAutosFragment();
-            fragmentoElegido = true;
             cambiarTitulo(R.string.mis_autos_title);
         }else if(id == R.id.nav_info_personal) {
             fragment = new InfoPersonalFragment();
-            fragmentoElegido = true;
             cambiarTitulo(R.string.informacion_personal_title);
             bundle = new Bundle();
             bundle.putBoolean("origen",true);
             fragment.setArguments(bundle);
         }else if(id == R.id.nav_historial_pagos){
 
+            fragment = new HistorialPagosFragment();
             cambiarTitulo(R.string.historial_pagos_title);
 
         }else if(id == R.id.nav_acerca_nosotros){
 
-
+            fragment = new AcercaNostrosFragment();
             cambiarTitulo(R.string.acerca_de_nosotros_title);
 
         }else if(id == R.id.nav_cerrar_sesion){
@@ -175,6 +176,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
             finish();
             Log.i("SESSION", "sesión cerrada");
             Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
+            fragmentoElegido = false;
+        }
+        else
+        {
+            fragmentoElegido = false;
         }
 
         if(fragmentoElegido){
