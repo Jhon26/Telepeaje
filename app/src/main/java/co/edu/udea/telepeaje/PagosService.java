@@ -68,7 +68,7 @@ public class PagosService extends Service {
                                 .setAutoCancel(true)
                                 .setVisibility(Notification.VISIBILITY_PUBLIC)
                                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                .setContentText("Se ha realizado el cobro de $xxx COP del peaje xxx para el auto xxx");
+                                .setContentText("Se ha realizado el cobro de un peaje para un auto tuyo");
 
                 //Activity que se lanza al hacer click en la notificación
                 Intent resultIntent = new Intent(PagosService.this, HistorialPagosFragment.class);

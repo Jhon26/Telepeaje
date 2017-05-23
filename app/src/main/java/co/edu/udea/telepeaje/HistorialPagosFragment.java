@@ -1,12 +1,28 @@
 package co.edu.udea.telepeaje;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import co.edu.udea.telepeaje.Objetos.Auto;
+import co.edu.udea.telepeaje.Objetos.FirebaseReferences;
+import co.edu.udea.telepeaje.Objetos.Pago;
+import co.edu.udea.telepeaje.Objetos.Recibo;
 
 
 /**
@@ -26,6 +42,8 @@ public class HistorialPagosFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ViewGroup layout;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +82,43 @@ public class HistorialPagosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_historial_pagos, container, false);
+        View view = inflater.inflate(R.layout.fragment_historial_pagos, container, false);
+
+        layout = (ViewGroup) view.findViewById(R.id.content_historial);
+
+        //Lectura de los autos desde la BD
+        //Instancia de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //Referencia de todos los recibos
+        DatabaseReference recibosRef = database.getReference(FirebaseReferences.RECIBOS_REFERENCE);
+        recibosRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Se limpian las cardView infladas
+                layout.removeAllViews();
+                //Se meten todos los autos en un Iterable de tipo DataSnapshot
+                Iterable<DataSnapshot> recibos = dataSnapshot.getChildren();
+                //Se recorre ese Iterable
+                while(recibos.iterator().hasNext()){
+                    //Se coge uno de esos DataSnapshots (auto) que hay en el Iterable
+                    DataSnapshot reciboDS = recibos.iterator().next();
+                    //Se le pasa su valor a un objeto de tipo auto
+                    Recibo recibo = reciboDS.getValue(Recibo.class);
+                    //Se ponen los atributos de ese objeto en su correspondiente cardView
+                    ponerRecibo(recibo, reciboDS.getKey());
+
+                    /*//Se imprimen los atributos del auto
+                    Log.i("Auto", auto.getNombrePersonalizado().toString());*/
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        // Inflate the layout for this fragment
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,5 +158,25 @@ public class HistorialPagosFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @SuppressLint("InlinedApi")
+    private void ponerRecibo(final Recibo recibo, final String reciboKey){
+        //Se definen los elementos que van en el layout para cada auto
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        int id = R.layout.layout_recibo;
+        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(id, null, false);
+        TextView textViewPlacaRecibo = (TextView) relativeLayout.findViewById(R.id.placa_auto_recibo);
+        TextView textViewPeajeRecibo = (TextView) relativeLayout.findViewById(R.id.peaje_recibo);
+        TextView textViewFechaRecibo = (TextView) relativeLayout.findViewById(R.id.fecha_recibo);
+        TextView textViewCostoRecibo = (TextView) relativeLayout.findViewById(R.id.costo_recibo);
+        //Se configuran los elementos
+        textViewPlacaRecibo.setText(recibo.getPlaca());
+        textViewPeajeRecibo.setText(recibo.getPeaje());
+        textViewFechaRecibo.setText(recibo.getFecha());
+        textViewCostoRecibo.setText("$"+recibo.getCosto()+" COP");
+
+        layout.addView(relativeLayout);
+        return;
     }
 }

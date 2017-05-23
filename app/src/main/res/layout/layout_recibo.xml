@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:layout_marginTop="15dp"
+    android:layout_marginLeft="12dp">
+
+
+    <TextView
+        android:id="@+id/placa_auto_recibo"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
+        android:text="Placa auto" />
+
+    <TextView
+        android:id="@+id/fecha_recibo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/placa_auto_recibo"
+        android:layout_marginTop="23dp"
+        android:layout_weight="1"
+        android:text="Fecha Recibo" />
+
+    <TextView
+        android:id="@+id/peaje_recibo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="31dp"
+        android:layout_marginRight="31dp"
+        android:text="Peaje"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/costo_recibo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/fecha_recibo"
+        android:layout_alignBottom="@+id/fecha_recibo"
+        android:layout_alignEnd="@+id/peaje_recibo"
+        android:layout_alignRight="@+id/peaje_recibo"
+        android:text="Costo" />
+
+</RelativeLayout>
