@@ -44,5 +44,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         Timer timer = new Timer();
         timer.schedule(task, SPLASH_SCREEN_DELAY);
         getSupportActionBar().hide();
+
+        /**
+         * Dado que esta es la primera actividad que se ejecuta, desde acá se lanzará el servicio que reconoce cuando
+         * un auto ha realizado un pago
+         */
+        Intent i = new Intent(this, PagosService.class);
+        this.startService(i);
     }
 }
